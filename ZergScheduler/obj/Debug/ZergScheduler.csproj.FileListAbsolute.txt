@@ -1,0 +1,5 @@
+c:\documents and settings\jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\bin\ZergScheduler.dll
+c:\documents and settings\jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\bin\ZergScheduler.pdb
+c:\documents and settings\jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ResolveAssemblyReference.cache
+c:\documents and settings\jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.dll
+c:\documents and settings\jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.pdb
