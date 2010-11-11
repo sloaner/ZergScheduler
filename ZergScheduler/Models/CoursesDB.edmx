@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ZergRushModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ZergRushModelStoreContainer">
+          <EntitySet Name="Course" EntityType="ZergRushModel.Store.Course" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Department" EntityType="ZergRushModel.Store.Department" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GEP" EntityType="ZergRushModel.Store.GEP" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GFR" EntityType="ZergRushModel.Store.GFR" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Course_Department" Association="ZergRushModel.Store.FK_Course_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Course" EntitySet="Course" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="course_id" />
+          </Key>
+          <Property Name="course_id" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="dept_id" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="course_no" Type="nvarchar" MaxLength="10" />
+          <Property Name="title" Type="nvarchar(max)" />
+          <Property Name="description" Type="text" />
+          <Property Name="credits" Type="int" />
+          <Property Name="career" Type="nvarchar" MaxLength="50" />
+          <Property Name="gfr" Type="int" />
+          <Property Name="gep" Type="int" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="dept_id" />
+          </Key>
+          <Property Name="dept_id" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="dept_title" Type="nvarchar" Nullable="false" MaxLength="75" />
+        </EntityType>
+        <EntityType Name="GEP">
+          <Key>
+            <PropertyRef Name="value" />
+          </Key>
+          <Property Name="value" Type="int" Nullable="false" />
+          <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="GFR">
+          <Key>
+            <PropertyRef Name="value" />
+          </Key>
+          <Property Name="value" Type="int" Nullable="false" />
+          <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Course_Department">
+          <End Role="Department" Type="ZergRushModel.Store.Department" Multiplicity="1" />
+          <End Role="Course" Type="ZergRushModel.Store.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="dept_id" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="dept_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZergRushModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ZergRushEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Courses" EntityType="ZergRushModel.Course" />
+          <EntitySet Name="Departments" EntityType="ZergRushModel.Department" />
+          <AssociationSet Name="FK_Course_Department" Association="ZergRushModel.FK_Course_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Course" EntitySet="Courses" />
+          </AssociationSet>
+          <EntitySet Name="GEPs" EntityType="ZergRushModel.GEP" />
+          <EntitySet Name="GFRs" EntityType="ZergRushModel.GFR" />
+        </EntityContainer>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="course_id" />
+          </Key>
+          <Property Type="String" Name="course_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="course_no" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="title" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="description" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="credits" />
+          <Property Type="String" Name="career" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="gfr" />
+          <Property Type="Int32" Name="gep" />
+          <NavigationProperty Name="Department" Relationship="ZergRushModel.FK_Course_Department" FromRole="Course" ToRole="Department" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="dept_id" />
+          </Key>
+          <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="dept_title" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Courses" Relationship="ZergRushModel.FK_Course_Department" FromRole="Department" ToRole="Course" />
+        </EntityType>
+        <Association Name="FK_Course_Department">
+          <End Type="ZergRushModel.Department" Role="Department" Multiplicity="1" />
+          <End Type="ZergRushModel.Course" Role="Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="dept_id" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="dept_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GEP">
+          <Key>
+            <PropertyRef Name="value" />
+          </Key>
+          <Property Type="Int32" Name="value" Nullable="false" />
+          <Property Type="String" Name="id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="GFR">
+          <Key>
+            <PropertyRef Name="value" />
+          </Key>
+          <Property Type="Int32" Name="value" Nullable="false" />
+          <Property Type="String" Name="id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ZergRushModelStoreContainer" CdmEntityContainer="ZergRushEntities">
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="ZergRushModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="gep" ColumnName="gep" />
+                <ScalarProperty Name="gfr" ColumnName="gfr" />
+                <ScalarProperty Name="career" ColumnName="career" />
+                <ScalarProperty Name="credits" ColumnName="credits" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="course_no" ColumnName="course_no" />
+                <ScalarProperty Name="dept_id" ColumnName="dept_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="ZergRushModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="dept_title" ColumnName="dept_title" />
+                <ScalarProperty Name="dept_id" ColumnName="dept_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GEPs">
+            <EntityTypeMapping TypeName="ZergRushModel.GEP">
+              <MappingFragment StoreEntitySet="GEP">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GFRs">
+            <EntityTypeMapping TypeName="ZergRushModel.GFR">
+              <MappingFragment StoreEntitySet="GFR">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="CoursesDB">
+        <EntityTypeShape EntityType="ZergRushModel.Course" Width="1.5" PointX="3" PointY="1" Height="2.9052945963541656" />
+        <EntityTypeShape EntityType="ZergRushModel.Department" Width="1.5" PointX="0.75" PointY="1.625" Height="1.5788378906249996" />
+        <AssociationConnector Association="ZergRushModel.FK_Course_Department" >
+          <ConnectorPoint PointX="2.25" PointY="2.4144189453125" />
+          <ConnectorPoint PointX="3" PointY="2.4144189453125" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ZergRushModel.GEP" Width="1.5" PointX="0.75" PointY="4.75" Height="1.5788378906249996" />
+        <EntityTypeShape EntityType="ZergRushModel.GFR" Width="1.5" PointX="2.75" PointY="4.75" Height="1.5788378906249996" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

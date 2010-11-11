@@ -6,9 +6,10 @@ using ZergScheduler.Models;
 
 namespace ZergScheduler.ViewModels
 {
-	public class CourseIndexViewModel
+	public class CourseBrowseViewModel
 	{
-		public int NumberOfDepartments { get; set; }
-		public List<Department> Departments { get; set; }
+		public Department Department { get; set; }
+		public List<Course> Courses { get; set; }
+
 	}
 }

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ZergRushModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="ZergRushEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Courses" EntityType="ZergRushModel.Course" />
+    <EntitySet Name="Departments" EntityType="ZergRushModel.Department" />
+    <AssociationSet Name="FK_Course_Department" Association="ZergRushModel.FK_Course_Department">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Course" EntitySet="Courses" />
+    </AssociationSet>
+    <EntitySet Name="GEPs" EntityType="ZergRushModel.GEP" />
+    <EntitySet Name="GFRs" EntityType="ZergRushModel.GFR" />
+  </EntityContainer>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="course_id" />
+    </Key>
+    <Property Type="String" Name="course_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="course_no" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="title" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="description" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="credits" />
+    <Property Type="String" Name="career" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="gfr" />
+    <Property Type="Int32" Name="gep" />
+    <NavigationProperty Name="Department" Relationship="ZergRushModel.FK_Course_Department" FromRole="Course" ToRole="Department" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="dept_id" />
+    </Key>
+    <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="dept_title" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Courses" Relationship="ZergRushModel.FK_Course_Department" FromRole="Department" ToRole="Course" />
+  </EntityType>
+  <Association Name="FK_Course_Department">
+    <End Type="ZergRushModel.Department" Role="Department" Multiplicity="1" />
+    <End Type="ZergRushModel.Course" Role="Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="dept_id" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="dept_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="GEP">
+    <Key>
+      <PropertyRef Name="value" />
+    </Key>
+    <Property Type="Int32" Name="value" Nullable="false" />
+    <Property Type="String" Name="id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="GFR">
+    <Key>
+      <PropertyRef Name="value" />
+    </Key>
+    <Property Type="Int32" Name="value" Nullable="false" />
+    <Property Type="String" Name="id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

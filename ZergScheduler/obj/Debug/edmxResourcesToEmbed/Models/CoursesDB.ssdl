@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ZergRushModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ZergRushModelStoreContainer">
+    <EntitySet Name="Course" EntityType="ZergRushModel.Store.Course" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Department" EntityType="ZergRushModel.Store.Department" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GEP" EntityType="ZergRushModel.Store.GEP" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GFR" EntityType="ZergRushModel.Store.GFR" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Course_Department" Association="ZergRushModel.Store.FK_Course_Department">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Course" EntitySet="Course" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="course_id" />
+    </Key>
+    <Property Name="course_id" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="dept_id" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="course_no" Type="nvarchar" MaxLength="10" />
+    <Property Name="title" Type="nvarchar(max)" />
+    <Property Name="description" Type="text" />
+    <Property Name="credits" Type="int" />
+    <Property Name="career" Type="nvarchar" MaxLength="50" />
+    <Property Name="gfr" Type="int" />
+    <Property Name="gep" Type="int" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="dept_id" />
+    </Key>
+    <Property Name="dept_id" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="dept_title" Type="nvarchar" Nullable="false" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="GEP">
+    <Key>
+      <PropertyRef Name="value" />
+    </Key>
+    <Property Name="value" Type="int" Nullable="false" />
+    <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="GFR">
+    <Key>
+      <PropertyRef Name="value" />
+    </Key>
+    <Property Name="value" Type="int" Nullable="false" />
+    <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Course_Department">
+    <End Role="Department" Type="ZergRushModel.Store.Department" Multiplicity="1" />
+    <End Role="Course" Type="ZergRushModel.Store.Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="dept_id" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="dept_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

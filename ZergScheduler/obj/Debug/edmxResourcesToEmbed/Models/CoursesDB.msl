@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ZergRushModelStoreContainer" CdmEntityContainer="ZergRushEntities">
+    <EntitySetMapping Name="Courses">
+      <EntityTypeMapping TypeName="ZergRushModel.Course">
+        <MappingFragment StoreEntitySet="Course">
+          <ScalarProperty Name="gep" ColumnName="gep" />
+          <ScalarProperty Name="gfr" ColumnName="gfr" />
+          <ScalarProperty Name="career" ColumnName="career" />
+          <ScalarProperty Name="credits" ColumnName="credits" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="course_no" ColumnName="course_no" />
+          <ScalarProperty Name="dept_id" ColumnName="dept_id" />
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Departments">
+      <EntityTypeMapping TypeName="ZergRushModel.Department">
+        <MappingFragment StoreEntitySet="Department">
+          <ScalarProperty Name="dept_title" ColumnName="dept_title" />
+          <ScalarProperty Name="dept_id" ColumnName="dept_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GEPs">
+      <EntityTypeMapping TypeName="ZergRushModel.GEP">
+        <MappingFragment StoreEntitySet="GEP">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="value" ColumnName="value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GFRs">
+      <EntityTypeMapping TypeName="ZergRushModel.GFR">
+        <MappingFragment StoreEntitySet="GFR">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="value" ColumnName="value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

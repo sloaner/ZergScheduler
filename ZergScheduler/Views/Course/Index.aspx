@@ -6,15 +6,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
         Browse Courses</h2>
-    <p>
-        Select from
-        <%: Model.NumberOfDepartments %>
-        departments:</p>
+    <p>Select from <%: Model.NumberOfDepartments %> departments:</p>
     <ul>
-        <% foreach (string departmentName in Model.Departments)
+        <% foreach (ZergScheduler.Models.Department department in Model.Departments)
            { %>
         <li>
-            <%: departmentName%>
+            <%: Html.ActionLink(department.dept_title, "Browse", new { dept = department.dept_id })%>
         </li>
         <% } %>
     </ul>
