@@ -5,6 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
+    <!-- chris test commit -->
         Browsing Department:
         <%: Model.Department.dept_id %></h2>
     <ul>
