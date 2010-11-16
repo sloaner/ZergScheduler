@@ -29,23 +29,42 @@ namespace ZergScheduler.Controllers
 		// GET: /CourseManager/Create
 		public ActionResult Create()
 		{
-			return View();
+			var viewModel = new CourseManagerViewModel
+			{
+				Course = new Course(),
+				Departments = courseDB.Departments.ToList(),
+				GFRs = courseDB.GFRs.ToList(),
+				GEPs = courseDB.GEPs.ToList()
+			};
+
+			return View(viewModel);
 		}
 
 		// POST: /CourseManager/Create
 		[HttpPost]
-		public ActionResult Create(FormCollection collection)
+		public ActionResult Create(Course course, FormCollection collection)
 		{
-			try
+			if (ModelState.IsValid)
 			{
-				// TODO: Add insert logic here
+				course.course_id = course.dept_id + course.course_no;
+				course.gfr = collection["Course.gfr"].Split(',').Sum(x => Int32.Parse(x));
+				course.gep = collection["Course.gep"].Split(',').Sum(x => Int32.Parse(x));
+				courseDB.AddToCourses(course);
+				courseDB.SaveChanges();
 
 				return RedirectToAction("Index");
 			}
-			catch
+
+			// Invalid – redisplay with errors
+			var viewModel = new CourseManagerViewModel
 			{
-				return View();
-			}
+				Course = course,
+				Departments = courseDB.Departments.ToList(),
+				GFRs = courseDB.GFRs.ToList(),
+				GEPs = courseDB.GEPs.ToList()
+			};
+
+			return View(viewModel);
 		}
 
 		// GET: /CourseManager/Edit/5
@@ -70,9 +89,10 @@ namespace ZergScheduler.Controllers
 			var course = courseDB.Courses.Single(c => c.course_id == id);
 			try
 			{
-				collection["gfr"] = collection["gfr"].Split(',').Sum(x => Int32.Parse(x)) + "";
-				collection["gep"] = collection["gep"].Split(',').Sum(x => Int32.Parse(x)) + "";
-				UpdateModel(course,collection.ToValueProvider());
+				collection["Course.gfr"] = collection["Course.gfr"].Split(',').Sum(x => Int32.Parse(x)) + "";
+				collection["Course.gep"] = collection["Course.gep"].Split(',').Sum(x => Int32.Parse(x)) + "";
+				//collection["Course.course_id"] = collection["Course.dept_id"] + collection["Course.course_no"];
+				UpdateModel(course, "Course", collection.ToValueProvider());
 				courseDB.SaveChanges();
 
 				return RedirectToAction("Index");
@@ -92,25 +112,22 @@ namespace ZergScheduler.Controllers
 		}
 
 		// GET: /CourseManager/Delete/5
-		public ActionResult Delete(int id)
+		public ActionResult Delete(string id)
 		{
-			return View();
+			var course = courseDB.Courses.Single(c => c.course_id == id);
+			return View(course);
 		}
 
 		// POST: /CourseManager/Delete/5
 		[HttpPost]
-		public ActionResult Delete(int id, FormCollection collection)
+		public ActionResult Delete(string id, string confirmButton)
 		{
-			try
-			{
-				// TODO: Add delete logic here
+			var course = courseDB.Courses.Single(c => c.course_id == id);
 
-				return RedirectToAction("Index");
-			}
-			catch
-			{
-				return View();
-			}
+			courseDB.DeleteObject(course);
+			courseDB.SaveChanges();
+
+			return View("Deleted");
 		}
 	}
 }

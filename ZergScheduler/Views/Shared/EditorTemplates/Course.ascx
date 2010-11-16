@@ -47,7 +47,7 @@
 <div class="editor-field">
     <% var gfr = ViewData["GFRs"] as List<ZergScheduler.Models.GFR>; %>
     <% var selectedGFRs = gfr.FindAll(x => ((x.value & Model.gfr) != 0)).Select(x => x.value); %>
-    <%: Html.CheckBoxList("gfr", new MultiSelectList(gfr, "value", "name", selectedGFRs))%>
+    <%: Html.CheckBoxList("Course.gfr", new MultiSelectList(gfr, "value", "name", selectedGFRs))%>
     <%: Html.ValidationMessageFor(model => model.gfr) %>
 </div>
 <div class="editor-label">
@@ -56,6 +56,6 @@
 <div class="editor-field">
     <% var gep = ViewData["GEPs"] as List<ZergScheduler.Models.GEP>; %>
     <% var selectedGEPs = gep.FindAll(x => ((x.value & Model.gep) != 0)).Select(x => x.value); %>
-    <%: Html.CheckBoxList("gep", new MultiSelectList(ViewData["GEPs"] as IEnumerable,"value", "name", selectedGEPs)) %>
+    <%: Html.CheckBoxList("Course.gep", new MultiSelectList(gep,"value", "name", selectedGEPs)) %>
     <%: Html.ValidationMessageFor(model => model.gep) %>
 </div>

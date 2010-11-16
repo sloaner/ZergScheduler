@@ -91,6 +91,9 @@
     <Content Include="Content\Images\placeholder.gif" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Views\CourseManager\Create.aspx" />
+    <Content Include="Views\CourseManager\Delete.aspx" />
+    <Content Include="Views\CourseManager\Deleted.aspx" />
     <Content Include="Views\CourseManager\Edit.aspx" />
     <Content Include="Views\CourseManager\Index.aspx" />
     <Content Include="Views\Course\Browse.aspx" />

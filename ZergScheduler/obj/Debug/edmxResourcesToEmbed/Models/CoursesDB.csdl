@@ -21,8 +21,8 @@
     <Property Type="String" Name="description" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Type="Int32" Name="credits" />
     <Property Type="String" Name="career" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Type="Int32" Name="gfr" />
-    <Property Type="Int32" Name="gep" />
+    <Property Type="Int32" Name="gfr" DefaultValue="0" />
+    <Property Type="Int32" Name="gep" DefaultValue="0" />
     <NavigationProperty Name="Department" Relationship="ZergRushModel.FK_Course_Department" FromRole="Course" ToRole="Department" />
   </EntityType>
   <EntityType Name="Department">

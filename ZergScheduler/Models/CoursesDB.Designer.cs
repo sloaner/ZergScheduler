@@ -19,6 +19,9 @@ using System.Runtime.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Course_Department", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.Department), "Course", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Course), true)]
+[assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Class_Course", "Course", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.Course), "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Class), true)]
+[assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Class_Timeslot", "Timeslot", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ZergScheduler.Models.Timeslot), "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Class), true)]
+[assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Class_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.User), "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Class), true)]
 
 #endregion
 
@@ -133,6 +136,70 @@ namespace ZergScheduler.Models
             }
         }
         private ObjectSet<GFR> _GFRs;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Class> Classes
+        {
+            get
+            {
+                if ((_Classes == null))
+                {
+                    _Classes = base.CreateObjectSet<Class>("Classes");
+                }
+                return _Classes;
+            }
+        }
+        private ObjectSet<Class> _Classes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Semester> Semesters
+        {
+            get
+            {
+                if ((_Semesters == null))
+                {
+                    _Semesters = base.CreateObjectSet<Semester>("Semesters");
+                }
+                return _Semesters;
+            }
+        }
+        private ObjectSet<Semester> _Semesters;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Timeslot> Timeslots
+        {
+            get
+            {
+                if ((_Timeslots == null))
+                {
+                    _Timeslots = base.CreateObjectSet<Timeslot>("Timeslots");
+                }
+                return _Timeslots;
+            }
+        }
+        private ObjectSet<Timeslot> _Timeslots;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<User> Users
+        {
+            get
+            {
+                if ((_Users == null))
+                {
+                    _Users = base.CreateObjectSet<User>("Users");
+                }
+                return _Users;
+            }
+        }
+        private ObjectSet<User> _Users;
 
         #endregion
         #region AddTo Methods
@@ -168,6 +235,38 @@ namespace ZergScheduler.Models
         {
             base.AddObject("GFRs", gFR);
         }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Classes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToClasses(Class @class)
+        {
+            base.AddObject("Classes", @class);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Semesters EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSemesters(Semester semester)
+        {
+            base.AddObject("Semesters", semester);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Timeslots EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTimeslots(Timeslot timeslot)
+        {
+            base.AddObject("Timeslots", timeslot);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Users EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToUsers(User user)
+        {
+            base.AddObject("Users", user);
+        }
 
         #endregion
     }
@@ -176,6 +275,459 @@ namespace ZergScheduler.Models
     #endregion
     
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ZergRushModel", Name="Class")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Class : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Class object.
+        /// </summary>
+        /// <param name="class_id">Initial value of the class_id property.</param>
+        /// <param name="semster">Initial value of the semster property.</param>
+        /// <param name="course_id">Initial value of the course_id property.</param>
+        /// <param name="sect_id">Initial value of the sect_id property.</param>
+        /// <param name="inst_id">Initial value of the inst_id property.</param>
+        /// <param name="capacity">Initial value of the capacity property.</param>
+        /// <param name="waitlist_capacity">Initial value of the waitlist_capacity property.</param>
+        /// <param name="has_children">Initial value of the has_children property.</param>
+        public static Class CreateClass(global::System.Int32 class_id, global::System.String semster, global::System.String course_id, global::System.Int32 sect_id, global::System.String inst_id, global::System.Int32 capacity, global::System.Int32 waitlist_capacity, global::System.Boolean has_children)
+        {
+            Class @class = new Class();
+            @class.class_id = class_id;
+            @class.semster = semster;
+            @class.course_id = course_id;
+            @class.sect_id = sect_id;
+            @class.inst_id = inst_id;
+            @class.capacity = capacity;
+            @class.waitlist_capacity = waitlist_capacity;
+            @class.has_children = has_children;
+            return @class;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 class_id
+        {
+            get
+            {
+                return _class_id;
+            }
+            set
+            {
+                if (_class_id != value)
+                {
+                    Onclass_idChanging(value);
+                    ReportPropertyChanging("class_id");
+                    _class_id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("class_id");
+                    Onclass_idChanged();
+                }
+            }
+        }
+        private global::System.Int32 _class_id;
+        partial void Onclass_idChanging(global::System.Int32 value);
+        partial void Onclass_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String semster
+        {
+            get
+            {
+                return _semster;
+            }
+            set
+            {
+                if (_semster != value)
+                {
+                    OnsemsterChanging(value);
+                    ReportPropertyChanging("semster");
+                    _semster = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("semster");
+                    OnsemsterChanged();
+                }
+            }
+        }
+        private global::System.String _semster;
+        partial void OnsemsterChanging(global::System.String value);
+        partial void OnsemsterChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String course_id
+        {
+            get
+            {
+                return _course_id;
+            }
+            set
+            {
+                Oncourse_idChanging(value);
+                ReportPropertyChanging("course_id");
+                _course_id = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("course_id");
+                Oncourse_idChanged();
+            }
+        }
+        private global::System.String _course_id;
+        partial void Oncourse_idChanging(global::System.String value);
+        partial void Oncourse_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 sect_id
+        {
+            get
+            {
+                return _sect_id;
+            }
+            set
+            {
+                Onsect_idChanging(value);
+                ReportPropertyChanging("sect_id");
+                _sect_id = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("sect_id");
+                Onsect_idChanged();
+            }
+        }
+        private global::System.Int32 _sect_id;
+        partial void Onsect_idChanging(global::System.Int32 value);
+        partial void Onsect_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String room_id
+        {
+            get
+            {
+                return _room_id;
+            }
+            set
+            {
+                Onroom_idChanging(value);
+                ReportPropertyChanging("room_id");
+                _room_id = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("room_id");
+                Onroom_idChanged();
+            }
+        }
+        private global::System.String _room_id;
+        partial void Onroom_idChanging(global::System.String value);
+        partial void Onroom_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String inst_id
+        {
+            get
+            {
+                return _inst_id;
+            }
+            set
+            {
+                Oninst_idChanging(value);
+                ReportPropertyChanging("inst_id");
+                _inst_id = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("inst_id");
+                Oninst_idChanged();
+            }
+        }
+        private global::System.String _inst_id;
+        partial void Oninst_idChanging(global::System.String value);
+        partial void Oninst_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 capacity
+        {
+            get
+            {
+                return _capacity;
+            }
+            set
+            {
+                OncapacityChanging(value);
+                ReportPropertyChanging("capacity");
+                _capacity = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("capacity");
+                OncapacityChanged();
+            }
+        }
+        private global::System.Int32 _capacity;
+        partial void OncapacityChanging(global::System.Int32 value);
+        partial void OncapacityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 waitlist_capacity
+        {
+            get
+            {
+                return _waitlist_capacity;
+            }
+            set
+            {
+                Onwaitlist_capacityChanging(value);
+                ReportPropertyChanging("waitlist_capacity");
+                _waitlist_capacity = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("waitlist_capacity");
+                Onwaitlist_capacityChanged();
+            }
+        }
+        private global::System.Int32 _waitlist_capacity;
+        partial void Onwaitlist_capacityChanging(global::System.Int32 value);
+        partial void Onwaitlist_capacityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> days
+        {
+            get
+            {
+                return _days;
+            }
+            set
+            {
+                OndaysChanging(value);
+                ReportPropertyChanging("days");
+                _days = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("days");
+                OndaysChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _days;
+        partial void OndaysChanging(Nullable<global::System.Int32> value);
+        partial void OndaysChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> timeslot_id
+        {
+            get
+            {
+                return _timeslot_id;
+            }
+            set
+            {
+                Ontimeslot_idChanging(value);
+                ReportPropertyChanging("timeslot_id");
+                _timeslot_id = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("timeslot_id");
+                Ontimeslot_idChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _timeslot_id;
+        partial void Ontimeslot_idChanging(Nullable<global::System.Int32> value);
+        partial void Ontimeslot_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean has_children
+        {
+            get
+            {
+                return _has_children;
+            }
+            set
+            {
+                Onhas_childrenChanging(value);
+                ReportPropertyChanging("has_children");
+                _has_children = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("has_children");
+                Onhas_childrenChanged();
+            }
+        }
+        private global::System.Boolean _has_children;
+        partial void Onhas_childrenChanging(global::System.Boolean value);
+        partial void Onhas_childrenChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> parent_class_id
+        {
+            get
+            {
+                return _parent_class_id;
+            }
+            set
+            {
+                Onparent_class_idChanging(value);
+                ReportPropertyChanging("parent_class_id");
+                _parent_class_id = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("parent_class_id");
+                Onparent_class_idChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _parent_class_id;
+        partial void Onparent_class_idChanging(Nullable<global::System.Int32> value);
+        partial void Onparent_class_idChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Class_Course", "Course")]
+        public Course Course
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Course>("ZergRushModel.FK_Class_Course", "Course").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Course>("ZergRushModel.FK_Class_Course", "Course").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Course> CourseReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Course>("ZergRushModel.FK_Class_Course", "Course");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Course>("ZergRushModel.FK_Class_Course", "Course", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Class_Timeslot", "Timeslot")]
+        public Timeslot Timeslot
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Timeslot> TimeslotReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Class_User", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("ZergRushModel.FK_Class_User", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("ZergRushModel.FK_Class_User", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("ZergRushModel.FK_Class_User", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("ZergRushModel.FK_Class_User", "User", value);
+                }
+            }
+        }
+
+        #endregion
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -394,7 +946,7 @@ namespace ZergScheduler.Models
                 OngfrChanged();
             }
         }
-        private Nullable<global::System.Int32> _gfr;
+        private Nullable<global::System.Int32> _gfr = 0;
         partial void OngfrChanging(Nullable<global::System.Int32> value);
         partial void OngfrChanged();
     
@@ -418,7 +970,7 @@ namespace ZergScheduler.Models
                 OngepChanged();
             }
         }
-        private Nullable<global::System.Int32> _gep;
+        private Nullable<global::System.Int32> _gep = 0;
         partial void OngepChanging(Nullable<global::System.Int32> value);
         partial void OngepChanged();
 
@@ -460,6 +1012,28 @@ namespace ZergScheduler.Models
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("ZergRushModel.FK_Course_Department", "Department", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Class_Course", "Class")]
+        public EntityCollection<Class> Classes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Class>("ZergRushModel.FK_Class_Course", "Class");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Class>("ZergRushModel.FK_Class_Course", "Class", value);
                 }
             }
         }
@@ -785,6 +1359,577 @@ namespace ZergScheduler.Models
 
         #endregion
     
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ZergRushModel", Name="Semester")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Semester : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Semester object.
+        /// </summary>
+        /// <param name="semester_id">Initial value of the semester_id property.</param>
+        /// <param name="start_date">Initial value of the start_date property.</param>
+        /// <param name="drop_date">Initial value of the drop_date property.</param>
+        /// <param name="withdraw_date">Initial value of the withdraw_date property.</param>
+        /// <param name="reg_start_date">Initial value of the reg_start_date property.</param>
+        /// <param name="credit_step">Initial value of the credit_step property.</param>
+        /// <param name="day_step">Initial value of the day_step property.</param>
+        public static Semester CreateSemester(global::System.String semester_id, global::System.DateTime start_date, global::System.DateTime drop_date, global::System.DateTime withdraw_date, global::System.DateTime reg_start_date, global::System.Int32 credit_step, global::System.Int32 day_step)
+        {
+            Semester semester = new Semester();
+            semester.semester_id = semester_id;
+            semester.start_date = start_date;
+            semester.drop_date = drop_date;
+            semester.withdraw_date = withdraw_date;
+            semester.reg_start_date = reg_start_date;
+            semester.credit_step = credit_step;
+            semester.day_step = day_step;
+            return semester;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String semester_id
+        {
+            get
+            {
+                return _semester_id;
+            }
+            set
+            {
+                if (_semester_id != value)
+                {
+                    Onsemester_idChanging(value);
+                    ReportPropertyChanging("semester_id");
+                    _semester_id = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("semester_id");
+                    Onsemester_idChanged();
+                }
+            }
+        }
+        private global::System.String _semester_id;
+        partial void Onsemester_idChanging(global::System.String value);
+        partial void Onsemester_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime start_date
+        {
+            get
+            {
+                return _start_date;
+            }
+            set
+            {
+                Onstart_dateChanging(value);
+                ReportPropertyChanging("start_date");
+                _start_date = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("start_date");
+                Onstart_dateChanged();
+            }
+        }
+        private global::System.DateTime _start_date;
+        partial void Onstart_dateChanging(global::System.DateTime value);
+        partial void Onstart_dateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime drop_date
+        {
+            get
+            {
+                return _drop_date;
+            }
+            set
+            {
+                Ondrop_dateChanging(value);
+                ReportPropertyChanging("drop_date");
+                _drop_date = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("drop_date");
+                Ondrop_dateChanged();
+            }
+        }
+        private global::System.DateTime _drop_date;
+        partial void Ondrop_dateChanging(global::System.DateTime value);
+        partial void Ondrop_dateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime withdraw_date
+        {
+            get
+            {
+                return _withdraw_date;
+            }
+            set
+            {
+                Onwithdraw_dateChanging(value);
+                ReportPropertyChanging("withdraw_date");
+                _withdraw_date = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("withdraw_date");
+                Onwithdraw_dateChanged();
+            }
+        }
+        private global::System.DateTime _withdraw_date;
+        partial void Onwithdraw_dateChanging(global::System.DateTime value);
+        partial void Onwithdraw_dateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime reg_start_date
+        {
+            get
+            {
+                return _reg_start_date;
+            }
+            set
+            {
+                Onreg_start_dateChanging(value);
+                ReportPropertyChanging("reg_start_date");
+                _reg_start_date = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("reg_start_date");
+                Onreg_start_dateChanged();
+            }
+        }
+        private global::System.DateTime _reg_start_date;
+        partial void Onreg_start_dateChanging(global::System.DateTime value);
+        partial void Onreg_start_dateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 credit_step
+        {
+            get
+            {
+                return _credit_step;
+            }
+            set
+            {
+                Oncredit_stepChanging(value);
+                ReportPropertyChanging("credit_step");
+                _credit_step = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("credit_step");
+                Oncredit_stepChanged();
+            }
+        }
+        private global::System.Int32 _credit_step;
+        partial void Oncredit_stepChanging(global::System.Int32 value);
+        partial void Oncredit_stepChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 day_step
+        {
+            get
+            {
+                return _day_step;
+            }
+            set
+            {
+                Onday_stepChanging(value);
+                ReportPropertyChanging("day_step");
+                _day_step = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("day_step");
+                Onday_stepChanged();
+            }
+        }
+        private global::System.Int32 _day_step;
+        partial void Onday_stepChanging(global::System.Int32 value);
+        partial void Onday_stepChanged();
+
+        #endregion
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ZergRushModel", Name="Timeslot")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Timeslot : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Timeslot object.
+        /// </summary>
+        /// <param name="timeslot_id">Initial value of the timeslot_id property.</param>
+        /// <param name="start_hr">Initial value of the start_hr property.</param>
+        /// <param name="start_min">Initial value of the start_min property.</param>
+        /// <param name="end_hr">Initial value of the end_hr property.</param>
+        /// <param name="end_min">Initial value of the end_min property.</param>
+        public static Timeslot CreateTimeslot(global::System.Int32 timeslot_id, global::System.Int32 start_hr, global::System.Int32 start_min, global::System.Int32 end_hr, global::System.Int32 end_min)
+        {
+            Timeslot timeslot = new Timeslot();
+            timeslot.timeslot_id = timeslot_id;
+            timeslot.start_hr = start_hr;
+            timeslot.start_min = start_min;
+            timeslot.end_hr = end_hr;
+            timeslot.end_min = end_min;
+            return timeslot;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 timeslot_id
+        {
+            get
+            {
+                return _timeslot_id;
+            }
+            set
+            {
+                if (_timeslot_id != value)
+                {
+                    Ontimeslot_idChanging(value);
+                    ReportPropertyChanging("timeslot_id");
+                    _timeslot_id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("timeslot_id");
+                    Ontimeslot_idChanged();
+                }
+            }
+        }
+        private global::System.Int32 _timeslot_id;
+        partial void Ontimeslot_idChanging(global::System.Int32 value);
+        partial void Ontimeslot_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 start_hr
+        {
+            get
+            {
+                return _start_hr;
+            }
+            set
+            {
+                Onstart_hrChanging(value);
+                ReportPropertyChanging("start_hr");
+                _start_hr = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("start_hr");
+                Onstart_hrChanged();
+            }
+        }
+        private global::System.Int32 _start_hr;
+        partial void Onstart_hrChanging(global::System.Int32 value);
+        partial void Onstart_hrChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 start_min
+        {
+            get
+            {
+                return _start_min;
+            }
+            set
+            {
+                Onstart_minChanging(value);
+                ReportPropertyChanging("start_min");
+                _start_min = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("start_min");
+                Onstart_minChanged();
+            }
+        }
+        private global::System.Int32 _start_min;
+        partial void Onstart_minChanging(global::System.Int32 value);
+        partial void Onstart_minChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 end_hr
+        {
+            get
+            {
+                return _end_hr;
+            }
+            set
+            {
+                Onend_hrChanging(value);
+                ReportPropertyChanging("end_hr");
+                _end_hr = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("end_hr");
+                Onend_hrChanged();
+            }
+        }
+        private global::System.Int32 _end_hr;
+        partial void Onend_hrChanging(global::System.Int32 value);
+        partial void Onend_hrChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 end_min
+        {
+            get
+            {
+                return _end_min;
+            }
+            set
+            {
+                Onend_minChanging(value);
+                ReportPropertyChanging("end_min");
+                _end_min = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("end_min");
+                Onend_minChanged();
+            }
+        }
+        private global::System.Int32 _end_min;
+        partial void Onend_minChanging(global::System.Int32 value);
+        partial void Onend_minChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Class_Timeslot", "Class")]
+        public EntityCollection<Class> Classes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Class>("ZergRushModel.FK_Class_Timeslot", "Class");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Class>("ZergRushModel.FK_Class_Timeslot", "Class", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ZergRushModel", Name="User")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class User : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new User object.
+        /// </summary>
+        /// <param name="uid">Initial value of the uid property.</param>
+        public static User CreateUser(global::System.String uid)
+        {
+            User user = new User();
+            user.uid = uid;
+            return user;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String uid
+        {
+            get
+            {
+                return _uid;
+            }
+            set
+            {
+                if (_uid != value)
+                {
+                    OnuidChanging(value);
+                    ReportPropertyChanging("uid");
+                    _uid = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("uid");
+                    OnuidChanged();
+                }
+            }
+        }
+        private global::System.String _uid;
+        partial void OnuidChanging(global::System.String value);
+        partial void OnuidChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String first_name
+        {
+            get
+            {
+                return _first_name;
+            }
+            set
+            {
+                Onfirst_nameChanging(value);
+                ReportPropertyChanging("first_name");
+                _first_name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("first_name");
+                Onfirst_nameChanged();
+            }
+        }
+        private global::System.String _first_name;
+        partial void Onfirst_nameChanging(global::System.String value);
+        partial void Onfirst_nameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String last_name
+        {
+            get
+            {
+                return _last_name;
+            }
+            set
+            {
+                Onlast_nameChanging(value);
+                ReportPropertyChanging("last_name");
+                _last_name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("last_name");
+                Onlast_nameChanged();
+            }
+        }
+        private global::System.String _last_name;
+        partial void Onlast_nameChanging(global::System.String value);
+        partial void Onlast_nameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String email
+        {
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                OnemailChanging(value);
+                ReportPropertyChanging("email");
+                _email = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("email");
+                OnemailChanged();
+            }
+        }
+        private global::System.String _email;
+        partial void OnemailChanging(global::System.String value);
+        partial void OnemailChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String password
+        {
+            get
+            {
+                return _password;
+            }
+            set
+            {
+                OnpasswordChanging(value);
+                ReportPropertyChanging("password");
+                _password = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("password");
+                OnpasswordChanged();
+            }
+        }
+        private global::System.String _password;
+        partial void OnpasswordChanging(global::System.String value);
+        partial void OnpasswordChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Class_User", "Class")]
+        public EntityCollection<Class> Classes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Class>("ZergRushModel.FK_Class_User", "Class");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Class>("ZergRushModel.FK_Class_User", "Class", value);
+                }
+            }
+        }
+
+        #endregion
     }
 
     #endregion
