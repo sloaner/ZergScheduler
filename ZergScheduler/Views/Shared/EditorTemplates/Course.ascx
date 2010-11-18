@@ -6,6 +6,7 @@
     <%: Html.DropDownList("dept_id", new SelectList(ViewData["Departments"] as IEnumerable,"dept_id", "dept_title", Model.dept_id)) %>
     <%: Html.ValidationMessageFor(model => model.dept_id) %>
 </div>
+
 <div class="editor-label">
     <%: Html.LabelFor(model => model.course_no) %>
 </div>
@@ -13,6 +14,7 @@
     <%: Html.TextBoxFor(model => model.course_no) %>
     <%: Html.ValidationMessageFor(model => model.course_no) %>
 </div>
+
 <div class="editor-label">
     <%: Html.LabelFor(model => model.title) %>
 </div>
@@ -20,6 +22,7 @@
     <%: Html.TextBoxFor(model => model.title) %>
     <%: Html.ValidationMessageFor(model => model.title) %>
 </div>
+
 <div class="editor-label">
     <%: Html.LabelFor(model => model.description) %>
 </div>
@@ -27,6 +30,7 @@
     <%: Html.TextAreaFor(model => model.description) %>
     <%: Html.ValidationMessageFor(model => model.description) %>
 </div>
+
 <div class="editor-label">
     <%: Html.LabelFor(model => model.credits) %>
 </div>
@@ -34,6 +38,7 @@
     <%: Html.TextBoxFor(model => model.credits) %>
     <%: Html.ValidationMessageFor(model => model.credits) %>
 </div>
+
 <div class="editor-label">
     <%: Html.LabelFor(model => model.career) %>
 </div>
@@ -41,6 +46,7 @@
     <%: Html.TextBoxFor(model => model.career) %>
     <%: Html.ValidationMessageFor(model => model.career) %>
 </div>
+
 <div class="editor-label">
     <%: Html.LabelFor(model => model.gfr) %>
 </div>
@@ -50,6 +56,7 @@
     <%: Html.CheckBoxList("Course.gfr", new MultiSelectList(gfr, "value", "name", selectedGFRs))%>
     <%: Html.ValidationMessageFor(model => model.gfr) %>
 </div>
+
 <div class="editor-label">
     <%: Html.LabelFor(model => model.gep) %>
 </div>

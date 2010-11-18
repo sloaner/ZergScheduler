@@ -47,8 +47,8 @@ namespace ZergScheduler.Controllers
 			if (ModelState.IsValid)
 			{
 				course.course_id = course.dept_id + course.course_no;
-				course.gfr = collection["Course.gfr"].Split(',').Sum(x => Int32.Parse(x));
-				course.gep = collection["Course.gep"].Split(',').Sum(x => Int32.Parse(x));
+				course.gfr = (collection["Course.gfr"] ?? "0").Split(',').Sum(x => Int32.Parse(x));
+				course.gep = (collection["Course.gep"] ?? "0").Split(',').Sum(x => Int32.Parse(x));
 				courseDB.AddToCourses(course);
 				courseDB.SaveChanges();
 
@@ -89,8 +89,8 @@ namespace ZergScheduler.Controllers
 			var course = courseDB.Courses.Single(c => c.course_id == id);
 			try
 			{
-				collection["Course.gfr"] = collection["Course.gfr"].Split(',').Sum(x => Int32.Parse(x)) + "";
-				collection["Course.gep"] = collection["Course.gep"].Split(',').Sum(x => Int32.Parse(x)) + "";
+				collection["Course.gfr"] = (collection["Course.gfr"] ?? "0").Split(',').Sum(x => Int32.Parse(x)) + "";
+				collection["Course.gep"] = (collection["Course.gep"] ?? "0").Split(',').Sum(x => Int32.Parse(x)) + "";
 				//collection["Course.course_id"] = collection["Course.dept_id"] + collection["Course.course_no"];
 				UpdateModel(course, "Course", collection.ToValueProvider());
 				courseDB.SaveChanges();

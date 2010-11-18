@@ -11,11 +11,30 @@
           <EntitySet Name="Department" EntityType="ZergRushModel.Store.Department" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GEP" EntityType="ZergRushModel.Store.GEP" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GFR" EntityType="ZergRushModel.Store.GFR" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Role" EntityType="ZergRushModel.Store.Role" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Role_Type" EntityType="ZergRushModel.Store.Role_Type" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Semester" EntityType="ZergRushModel.Store.Semester" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Takes" EntityType="ZergRushModel.Store.Takes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Timeslot" EntityType="ZergRushModel.Store.Timeslot" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="ZergRushModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Instructor" EntityType="ZergRushModel.Store.Instructor" store:Type="Views" store:Schema="dbo" store:Name="Instructor">
+            <DefiningQuery>SELECT 
+      [Instructor].[inst_id] AS [inst_id], 
+      [Instructor].[department] AS [department]
+      FROM [dbo].[Instructor] AS [Instructor]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Student" EntityType="ZergRushModel.Store.Student" store:Type="Views" store:Schema="dbo" store:Name="Student">
+            <DefiningQuery>SELECT 
+      [Student].[student_id] AS [student_id], 
+      [Student].[major] AS [major]
+      FROM [dbo].[Student] AS [Student]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Class_Course" Association="ZergRushModel.Store.FK_Class_Course">
             <End Role="Course" EntitySet="Course" />
+            <End Role="Class" EntitySet="Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Class_Semester" Association="ZergRushModel.Store.FK_Class_Semester">
+            <End Role="Semester" EntitySet="Semester" />
             <End Role="Class" EntitySet="Class" />
           </AssociationSet>
           <AssociationSet Name="FK_Class_Timeslot" Association="ZergRushModel.Store.FK_Class_Timeslot">
@@ -30,14 +49,34 @@
             <End Role="Department" EntitySet="Department" />
             <End Role="Course" EntitySet="Course" />
           </AssociationSet>
+          <AssociationSet Name="FK_Role_Role_Type" Association="ZergRushModel.Store.FK_Role_Role_Type">
+            <End Role="Role_Type" EntitySet="Role_Type" />
+            <End Role="Role" EntitySet="Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_User" Association="ZergRushModel.Store.FK_Role_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Role" EntitySet="Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Takes_Class" Association="ZergRushModel.Store.FK_Takes_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Takes" EntitySet="Takes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Takes_User" Association="ZergRushModel.Store.FK_Takes_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Takes" EntitySet="Takes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Department" Association="ZergRushModel.Store.FK_User_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Class">
           <Key>
             <PropertyRef Name="class_id" />
-            <PropertyRef Name="semster" />
+            <PropertyRef Name="semster_id" />
           </Key>
           <Property Name="class_id" Type="int" Nullable="false" />
-          <Property Name="semster" Type="nchar" Nullable="false" MaxLength="4" />
+          <Property Name="semster_id" Type="nchar" Nullable="false" MaxLength="4" />
           <Property Name="course_id" Type="nvarchar" Nullable="false" MaxLength="10" />
           <Property Name="sect_id" Type="int" Nullable="false" />
           <Property Name="room_id" Type="nvarchar" MaxLength="10" />
@@ -86,6 +125,21 @@
           <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="user_id" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="role_id" Type="nchar" Nullable="false" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Role_Type">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="nchar" Nullable="false" MaxLength="1" />
+          <Property Name="role_name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Semester">
           <Key>
             <PropertyRef Name="semester_id" />
@@ -97,6 +151,18 @@
           <Property Name="reg_start_date" Type="date" Nullable="false" />
           <Property Name="credit_step" Type="int" Nullable="false" />
           <Property Name="day_step" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Takes">
+          <Key>
+            <PropertyRef Name="student_id" />
+            <PropertyRef Name="class_id" />
+            <PropertyRef Name="semester_id" />
+          </Key>
+          <Property Name="student_id" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="class_id" Type="int" Nullable="false" />
+          <Property Name="semester_id" Type="nchar" Nullable="false" MaxLength="4" />
+          <Property Name="grade" Type="int" />
+          <Property Name="waitlist_status" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Timeslot">
           <Key>
@@ -110,13 +176,34 @@
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="uid" />
+            <PropertyRef Name="user_id" />
           </Key>
-          <Property Name="uid" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="user_id" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="first_name" Type="nvarchar" MaxLength="50" />
           <Property Name="last_name" Type="nvarchar" MaxLength="50" />
           <Property Name="email" Type="nvarchar" MaxLength="50" />
           <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="department" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'CMSC345.dbo.Instructor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="Instructor">
+          <Key>
+            <PropertyRef Name="inst_id" />
+          </Key>
+          <Property Name="inst_id" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="department" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'CMSC345.dbo.Student' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="major" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <Association Name="FK_Class_Course">
           <End Role="Course" Type="ZergRushModel.Store.Course" Multiplicity="1" />
@@ -127,6 +214,18 @@
             </Principal>
             <Dependent Role="Class">
               <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Class_Semester">
+          <End Role="Semester" Type="ZergRushModel.Store.Semester" Multiplicity="1" />
+          <End Role="Class" Type="ZergRushModel.Store.Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="semester_id" />
+            </Principal>
+            <Dependent Role="Class">
+              <PropertyRef Name="semster_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -147,7 +246,7 @@
           <End Role="Class" Type="ZergRushModel.Store.Class" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
-              <PropertyRef Name="uid" />
+              <PropertyRef Name="user_id" />
             </Principal>
             <Dependent Role="Class">
               <PropertyRef Name="inst_id" />
@@ -166,23 +265,85 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Role_Role_Type">
+          <End Role="Role_Type" Type="ZergRushModel.Store.Role_Type" Multiplicity="1" />
+          <End Role="Role" Type="ZergRushModel.Store.Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role_Type">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_User">
+          <End Role="User" Type="ZergRushModel.Store.User" Multiplicity="1" />
+          <End Role="Role" Type="ZergRushModel.Store.Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Takes_Class">
+          <End Role="Class" Type="ZergRushModel.Store.Class" Multiplicity="1" />
+          <End Role="Takes" Type="ZergRushModel.Store.Takes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="class_id" />
+              <PropertyRef Name="semster_id" />
+            </Principal>
+            <Dependent Role="Takes">
+              <PropertyRef Name="class_id" />
+              <PropertyRef Name="semester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Takes_User">
+          <End Role="User" Type="ZergRushModel.Store.User" Multiplicity="1" />
+          <End Role="Takes" Type="ZergRushModel.Store.Takes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Takes">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Department">
+          <End Role="Department" Type="ZergRushModel.Store.Department" Multiplicity="0..1" />
+          <End Role="User" Type="ZergRushModel.Store.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="dept_id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ZergRushModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="ZergRushEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Classes" EntityType="ZergRushModel.Class" />
           <EntitySet Name="Courses" EntityType="ZergRushModel.Course" />
           <EntitySet Name="Departments" EntityType="ZergRushModel.Department" />
-          <AssociationSet Name="FK_Course_Department" Association="ZergRushModel.FK_Course_Department">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="Course" EntitySet="Courses" />
-          </AssociationSet>
           <EntitySet Name="GEPs" EntityType="ZergRushModel.GEP" />
           <EntitySet Name="GFRs" EntityType="ZergRushModel.GFR" />
-          <EntitySet Name="Classes" EntityType="ZergRushModel.Class" />
+          <EntitySet Name="Role_Type" EntityType="ZergRushModel.Role_Type" />
           <EntitySet Name="Semesters" EntityType="ZergRushModel.Semester" />
+          <EntitySet Name="Takes" EntityType="ZergRushModel.Take" />
           <EntitySet Name="Timeslots" EntityType="ZergRushModel.Timeslot" />
           <EntitySet Name="Users" EntityType="ZergRushModel.User" />
+          <EntitySet Name="Instructors" EntityType="ZergRushModel.Instructor" />
+          <EntitySet Name="Students" EntityType="ZergRushModel.Student" />
           <AssociationSet Name="FK_Class_Course" Association="ZergRushModel.FK_Class_Course">
             <End Role="Course" EntitySet="Courses" />
             <End Role="Class" EntitySet="Classes" />
@@ -195,43 +356,79 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Class" EntitySet="Classes" />
           </AssociationSet>
+          <AssociationSet Name="FK_Course_Department" Association="ZergRushModel.FK_Course_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Course" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="Role" Association="ZergRushModel.Role">
+            <End Role="Role_Type" EntitySet="Role_Type" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Class_Semester" Association="ZergRushModel.FK_Class_Semester">
+            <End Role="Semester" EntitySet="Semesters" />
+            <End Role="Class" EntitySet="Classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Takes_Class" Association="ZergRushModel.FK_Takes_Class">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Take" EntitySet="Takes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Takes_User" Association="ZergRushModel.FK_Takes_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Take" EntitySet="Takes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Department" Association="ZergRushModel.FK_User_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="class_id" />
+            <PropertyRef Name="semster_id" />
+          </Key>
+          <Property Type="Int32" Name="class_id" Nullable="false" />
+          <Property Type="String" Name="semster_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="course_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="sect_id" Nullable="false" />
+          <Property Type="String" Name="room_id" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="inst_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="capacity" Nullable="false" />
+          <Property Type="Int32" Name="waitlist_capacity" Nullable="false" />
+          <Property Type="Int32" Name="days" />
+          <Property Type="Int32" Name="timeslot_id" />
+          <Property Type="Boolean" Name="has_children" Nullable="false" />
+          <Property Type="Int32" Name="parent_class_id" />
+          <NavigationProperty Name="Course" Relationship="ZergRushModel.FK_Class_Course" FromRole="Class" ToRole="Course" />
+          <NavigationProperty Name="Timeslot" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Class" ToRole="Timeslot" />
+          <NavigationProperty Name="User" Relationship="ZergRushModel.FK_Class_User" FromRole="Class" ToRole="User" />
+          <NavigationProperty Name="Semester" Relationship="ZergRushModel.FK_Class_Semester" FromRole="Class" ToRole="Semester" />
+          <NavigationProperty Name="Takes" Relationship="ZergRushModel.FK_Takes_Class" FromRole="Class" ToRole="Take" />
+        </EntityType>
         <EntityType Name="Course">
           <Key>
             <PropertyRef Name="course_id" />
           </Key>
           <Property Type="String" Name="course_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="course_no" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="course_no" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="title" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="description" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="credits" />
           <Property Type="String" Name="career" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="gfr" DefaultValue="0" />
           <Property Type="Int32" Name="gep" DefaultValue="0" />
-          <NavigationProperty Name="Department" Relationship="ZergRushModel.FK_Course_Department" FromRole="Course" ToRole="Department" />
           <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_Course" FromRole="Course" ToRole="Class" />
+          <NavigationProperty Name="Department" Relationship="ZergRushModel.FK_Course_Department" FromRole="Course" ToRole="Department" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="dept_id" />
           </Key>
-          <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="dept_title" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Courses" Relationship="ZergRushModel.FK_Course_Department" FromRole="Department" ToRole="Course" />
+          <NavigationProperty Name="Users" Relationship="ZergRushModel.FK_User_Department" FromRole="Department" ToRole="User" />
         </EntityType>
-        <Association Name="FK_Course_Department">
-          <End Type="ZergRushModel.Department" Role="Department" Multiplicity="1" />
-          <End Type="ZergRushModel.Course" Role="Course" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="dept_id" />
-            </Principal>
-            <Dependent Role="Course">
-              <PropertyRef Name="dept_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="GEP">
           <Key>
             <PropertyRef Name="value" />
@@ -248,26 +445,13 @@
           <Property Type="String" Name="id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Class">
+        <EntityType Name="Role_Type">
           <Key>
-            <PropertyRef Name="class_id" />
-            <PropertyRef Name="semster" />
+            <PropertyRef Name="role_id" />
           </Key>
-          <Property Type="Int32" Name="class_id" Nullable="false" />
-          <Property Type="String" Name="semster" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="course_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="sect_id" Nullable="false" />
-          <Property Type="String" Name="room_id" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="inst_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="capacity" Nullable="false" />
-          <Property Type="Int32" Name="waitlist_capacity" Nullable="false" />
-          <Property Type="Int32" Name="days" />
-          <Property Type="Int32" Name="timeslot_id" />
-          <Property Type="Boolean" Name="has_children" Nullable="false" />
-          <Property Type="Int32" Name="parent_class_id" />
-          <NavigationProperty Name="Course" Relationship="ZergRushModel.FK_Class_Course" FromRole="Class" ToRole="Course" />
-          <NavigationProperty Name="Timeslot" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Class" ToRole="Timeslot" />
-          <NavigationProperty Name="User" Relationship="ZergRushModel.FK_Class_User" FromRole="Class" ToRole="User" />
+          <Property Type="String" Name="role_id" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="role_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="ZergRushModel.Role" FromRole="Role_Type" ToRole="User" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -280,6 +464,21 @@
           <Property Type="DateTime" Name="reg_start_date" Nullable="false" />
           <Property Type="Int32" Name="credit_step" Nullable="false" />
           <Property Type="Int32" Name="day_step" Nullable="false" />
+          <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_Semester" FromRole="Semester" ToRole="Class" />
+        </EntityType>
+        <EntityType Name="Take">
+          <Key>
+            <PropertyRef Name="student_id" />
+            <PropertyRef Name="class_id" />
+            <PropertyRef Name="semester_id" />
+          </Key>
+          <Property Type="String" Name="student_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="class_id" Nullable="false" />
+          <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Type="Int32" Name="grade" />
+          <Property Type="Boolean" Name="waitlist_status" Nullable="false" />
+          <NavigationProperty Name="Class" Relationship="ZergRushModel.FK_Takes_Class" FromRole="Take" ToRole="Class" />
+          <NavigationProperty Name="User" Relationship="ZergRushModel.FK_Takes_User" FromRole="Take" ToRole="User" />
         </EntityType>
         <EntityType Name="Timeslot">
           <Key>
@@ -294,14 +493,32 @@
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="uid" />
+            <PropertyRef Name="user_id" />
           </Key>
-          <Property Type="String" Name="uid" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="user_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="first_name" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="last_name" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="email" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="password" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="department" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_User" FromRole="User" ToRole="Class" />
+          <NavigationProperty Name="Role_Type" Relationship="ZergRushModel.Role" FromRole="User" ToRole="Role_Type" />
+          <NavigationProperty Name="Takes" Relationship="ZergRushModel.FK_Takes_User" FromRole="User" ToRole="Take" />
+          <NavigationProperty Name="Department1" Relationship="ZergRushModel.FK_User_Department" FromRole="User" ToRole="Department" />
+        </EntityType>
+        <EntityType Name="Instructor">
+          <Key>
+            <PropertyRef Name="inst_id" />
+          </Key>
+          <Property Type="String" Name="inst_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="department" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Type="String" Name="student_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="major" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Class_Course">
           <End Type="ZergRushModel.Course" Role="Course" Multiplicity="1" />
@@ -332,19 +549,103 @@
           <End Type="ZergRushModel.Class" Role="Class" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
-              <PropertyRef Name="uid" />
+              <PropertyRef Name="user_id" />
             </Principal>
             <Dependent Role="Class">
               <PropertyRef Name="inst_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_Course_Department">
+          <End Type="ZergRushModel.Department" Role="Department" Multiplicity="1" />
+          <End Type="ZergRushModel.Course" Role="Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="dept_id" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="dept_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Role">
+          <End Type="ZergRushModel.Role_Type" Role="Role_Type" Multiplicity="*" />
+          <End Type="ZergRushModel.User" Role="User" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Class_Semester">
+          <End Type="ZergRushModel.Semester" Role="Semester" Multiplicity="1" />
+          <End Type="ZergRushModel.Class" Role="Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="semester_id" />
+            </Principal>
+            <Dependent Role="Class">
+              <PropertyRef Name="semster_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Takes_Class">
+          <End Type="ZergRushModel.Class" Role="Class" Multiplicity="1" />
+          <End Type="ZergRushModel.Take" Role="Take" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="class_id" />
+              <PropertyRef Name="semster_id" />
+            </Principal>
+            <Dependent Role="Take">
+              <PropertyRef Name="class_id" />
+              <PropertyRef Name="semester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Takes_User">
+          <End Type="ZergRushModel.User" Role="User" Multiplicity="1" />
+          <End Type="ZergRushModel.Take" Role="Take" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Take">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Department">
+          <End Type="ZergRushModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="ZergRushModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="dept_id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ZergRushModelStoreContainer" CdmEntityContainer="ZergRushEntities">
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="ZergRushModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="parent_class_id" ColumnName="parent_class_id" />
+                <ScalarProperty Name="has_children" ColumnName="has_children" />
+                <ScalarProperty Name="timeslot_id" ColumnName="timeslot_id" />
+                <ScalarProperty Name="days" ColumnName="days" />
+                <ScalarProperty Name="waitlist_capacity" ColumnName="waitlist_capacity" />
+                <ScalarProperty Name="capacity" ColumnName="capacity" />
+                <ScalarProperty Name="inst_id" ColumnName="inst_id" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="sect_id" ColumnName="sect_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="semster_id" ColumnName="semster_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Courses">
             <EntityTypeMapping TypeName="ZergRushModel.Course">
               <MappingFragment StoreEntitySet="Course">
@@ -386,21 +687,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Classes">
-            <EntityTypeMapping TypeName="ZergRushModel.Class">
-              <MappingFragment StoreEntitySet="Class">
-                <ScalarProperty Name="parent_class_id" ColumnName="parent_class_id" />
-                <ScalarProperty Name="has_children" ColumnName="has_children" />
-                <ScalarProperty Name="timeslot_id" ColumnName="timeslot_id" />
-                <ScalarProperty Name="days" ColumnName="days" />
-                <ScalarProperty Name="waitlist_capacity" ColumnName="waitlist_capacity" />
-                <ScalarProperty Name="capacity" ColumnName="capacity" />
-                <ScalarProperty Name="inst_id" ColumnName="inst_id" />
-                <ScalarProperty Name="room_id" ColumnName="room_id" />
-                <ScalarProperty Name="sect_id" ColumnName="sect_id" />
-                <ScalarProperty Name="course_id" ColumnName="course_id" />
-                <ScalarProperty Name="semster" ColumnName="semster" />
-                <ScalarProperty Name="class_id" ColumnName="class_id" />
+          <EntitySetMapping Name="Role_Type">
+            <EntityTypeMapping TypeName="ZergRushModel.Role_Type">
+              <MappingFragment StoreEntitySet="Role_Type">
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -414,6 +705,17 @@
                 <ScalarProperty Name="drop_date" ColumnName="drop_date" />
                 <ScalarProperty Name="start_date" ColumnName="start_date" />
                 <ScalarProperty Name="semester_id" ColumnName="semester_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Takes">
+            <EntityTypeMapping TypeName="ZergRushModel.Take">
+              <MappingFragment StoreEntitySet="Takes">
+                <ScalarProperty Name="waitlist_status" ColumnName="waitlist_status" />
+                <ScalarProperty Name="grade" ColumnName="grade" />
+                <ScalarProperty Name="semester_id" ColumnName="semester_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -431,14 +733,39 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ZergRushModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="department" ColumnName="department" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="last_name" ColumnName="last_name" />
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Instructors">
+            <EntityTypeMapping TypeName="ZergRushModel.Instructor">
+              <MappingFragment StoreEntitySet="Instructor">
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="inst_id" ColumnName="inst_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="ZergRushModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="major" ColumnName="major" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Role" TypeName="ZergRushModel.Role" StoreEntitySet="Role">
+            <EndProperty Name="User">
+              <ScalarProperty Name="user_id" ColumnName="user_id" />
+            </EndProperty>
+            <EndProperty Name="Role_Type">
+              <ScalarProperty Name="role_id" ColumnName="role_id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -459,31 +786,54 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="CoursesDB">
-        <EntityTypeShape EntityType="ZergRushModel.Course" Width="1.5" PointX="3" PointY="1" Height="2.9052945963541656" />
-        <EntityTypeShape EntityType="ZergRushModel.Department" Width="1.5" PointX="0.75" PointY="1.625" Height="1.5788378906249996" />
-        <AssociationConnector Association="ZergRushModel.FK_Course_Department" >
-          <ConnectorPoint PointX="2.25" PointY="2.4144189453125" />
-          <ConnectorPoint PointX="3" PointY="2.4144189453125" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="ZergRushModel.GEP" Width="1.5" PointX="0.75" PointY="4.75" Height="1.5788378906249996" />
-        <EntityTypeShape EntityType="ZergRushModel.GFR" Width="1.5" PointX="2.75" PointY="4.75" Height="1.5788378906249996" />
-        <EntityTypeShape EntityType="ZergRushModel.Class" Width="1.5" PointX="5.25" PointY="0.75" Height="3.8527636718749996" />
-        <EntityTypeShape EntityType="ZergRushModel.Semester" Width="1.5" PointX="7.875" PointY="2.125" Height="2.3368131510416674" />
-        <EntityTypeShape EntityType="ZergRushModel.Timeslot" Width="1.5" PointX="7.75" PointY="5.125" Height="2.1473193359375031" />
-        <EntityTypeShape EntityType="ZergRushModel.User" Width="1.5" PointX="4.875" PointY="5.75" Height="2.1473193359375031" />
+      <Diagram Name="CoursesDB" ZoomLevel="64">
+        <EntityTypeShape EntityType="ZergRushModel.Class" Width="1.5" PointX="3.5" PointY="1.5" Height="4.2317513020833326" />
+        <EntityTypeShape EntityType="ZergRushModel.Course" Width="1.5" PointX="1" PointY="3" Height="3.0947884114583384" />
+        <EntityTypeShape EntityType="ZergRushModel.Department" Width="1.5" PointX="1" PointY="0.5" Height="1.7683317057291661" />
+        <EntityTypeShape EntityType="ZergRushModel.GEP" Width="1.5" PointX="11.25" PointY="4.375" Height="1.5788378906250031" />
+        <EntityTypeShape EntityType="ZergRushModel.GFR" Width="1.5" PointX="11.25" PointY="2.625" Height="1.5788378906250031" />
+        <EntityTypeShape EntityType="ZergRushModel.Role_Type" Width="1.5" PointX="9.125" PointY="0.5" Height="1.5788378906250031" />
+        <EntityTypeShape EntityType="ZergRushModel.Semester" Width="1.5" PointX="2.75" PointY="6.875" Height="2.5263069661458335" />
+        <EntityTypeShape EntityType="ZergRushModel.Take" Width="1.5" PointX="6.875" PointY="4" Height="2.3368131510416656" />
+        <EntityTypeShape EntityType="ZergRushModel.Timeslot" Width="1.5" PointX="4.625" PointY="6.875" Height="2.1473193359375031" />
+        <EntityTypeShape EntityType="ZergRushModel.User" Width="1.5" PointX="6.75" PointY="0.5" Height="2.905294596354167" />
+        <EntityTypeShape EntityType="ZergRushModel.Instructor" Width="1.5" PointX="9.125" PointY="4.375" Height="1.3893440755208246" />
+        <EntityTypeShape EntityType="ZergRushModel.Student" Width="1.5" PointX="9.125" PointY="2.625" Height="1.3893440755208246" />
         <AssociationConnector Association="ZergRushModel.FK_Class_Course" >
-          <ConnectorPoint PointX="4.5" PointY="2.5473942057291663" />
-          <ConnectorPoint PointX="5.25" PointY="2.5473942057291663" />
+          <ConnectorPoint PointX="2.5" PointY="4.3658756510416659" />
+          <ConnectorPoint PointX="3.5" PointY="4.3658756510416659" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_Class_Timeslot" >
-          <ConnectorPoint PointX="7.75" PointY="5.40625" />
-          <ConnectorPoint PointX="6.59375" PointY="5.40625" />
-          <ConnectorPoint PointX="6.59375" PointY="4.602763671875" />
+          <ConnectorPoint PointX="4.8125" PointY="6.875" />
+          <ConnectorPoint PointX="4.8125" PointY="5.7317513020833326" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_Class_User" >
-          <ConnectorPoint PointX="5.8125" PointY="5.75" />
-          <ConnectorPoint PointX="5.8125" PointY="4.602763671875" />
+          <ConnectorPoint PointX="6.75" PointY="2.4526472981770837" />
+          <ConnectorPoint PointX="5" PointY="2.4526472981770837" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZergRushModel.FK_Course_Department" >
+          <ConnectorPoint PointX="1.75" PointY="2.2683317057291661" />
+          <ConnectorPoint PointX="1.75" PointY="3" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZergRushModel.Role" >
+          <ConnectorPoint PointX="9.125" PointY="1.2894189453125016" />
+          <ConnectorPoint PointX="8.25" PointY="1.2894189453125016" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZergRushModel.FK_Class_Semester" >
+          <ConnectorPoint PointX="3.875" PointY="6.875" />
+          <ConnectorPoint PointX="3.875" PointY="5.7317513020833326" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZergRushModel.FK_Takes_Class" >
+          <ConnectorPoint PointX="5" PointY="4.9961669628906247" />
+          <ConnectorPoint PointX="6.875" PointY="4.9961669628906247" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZergRushModel.FK_Takes_User" >
+          <ConnectorPoint PointX="7.5625" PointY="3.405294596354167" />
+          <ConnectorPoint PointX="7.5625" PointY="4" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZergRushModel.FK_User_Department" >
+          <ConnectorPoint PointX="2.5" PointY="0.96875" />
+          <ConnectorPoint PointX="6.75" PointY="0.96875" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

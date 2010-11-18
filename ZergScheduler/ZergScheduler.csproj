@@ -75,6 +75,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\CourseMetaData.cs" />
     <Compile Include="Models\CoursesDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -86,8 +88,8 @@
     <Compile Include="ViewModels\CourseManagerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Images\home-showcase.png" />
-    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\home-showcase2.png" />
+    <Content Include="Content\Images\logo2.png" />
     <Content Include="Content\Images\placeholder.gif" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
