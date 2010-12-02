@@ -10,34 +10,123 @@ body
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	background-color: #FBF9EF;
-	padding: 0px 6%;
+	padding: 0;
+}
+
+div
+{
+	display: block;
 }
 
 #container
 {
-	float: left;
+	margin: 4px auto 32px;
+	position: relative;
+	width: 960px;
 }
 
 #header
 {
-	float: left;
-	width: 100%;
+	position: relative;
+	width: 960px;
 	border-bottom: 1px dotted #5D5A53;
-	margin-bottom: 10px;
 }
 
 #header h1
 {
 	font-size: 18px;
-	float: left;
 	background: url(/content/Images/logo.png) no-repeat;
 	padding: 45px 0px 5px 0px;
 }
 
+#body
+{
+	position: relative;
+}
+
+/******************** Top Navigation ************************/
+#navlist
+{
+	background-color: #616C77;
+	bottom: 0;
+	height: 32px;
+	padding-left: 4px;
+	position: absolute;
+	right: 0;
+	-moz-border-radius-topleft: 8px;
+	-moz-border-radius-topright: 12px;
+	-webkit-border-top-left-radius: 8px;
+	-webkit-border-top-right-radius: 12px;
+}
+
+.menu-label
+{	
+	display:block;
+}
+
+#navlist .menu-label
+{
+	background-color: #616C77;
+	color: #FFF;
+	font-weight: bold;
+	line-height: 24px;
+	padding: 4px 12px;
+	position: relative;
+}
+
+#navlist li
+{
+	list-style: none;
+	float: left;
+}
+
+#navlist .nav .menu-label
+{
+	background-color: #768089;
+	font-size: 11px;
+	line-height: 16px;
+	margin: 4px 4px 4px 0;
+	padding: 4px 8px 4px 12px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+
+#navlist .nav .menu-label:hover
+{
+	margin-bottom: 0;
+	padding-bottom: 8px;
+	-moz-border-radius-bottomleft: 0;
+	-moz-border-radius-bottomright: 0;
+	-webkit-border-bottom-left-radius: 0;
+	-webkit-border-bottom-right-radius: 0;
+}
+
+#navlist .menu.last .menu-label
+{
+	-moz-border-radius-topright: 8px;
+	-webkit-border-top-right-radius: 8px;
+}
+
+#navlist-log .menu-label
+{
+	padding-left: 16px;
+	padding-right: 16px;
+}
+#navlist-log.login a
+{
+	background-color: #66AA44;
+}
+#navlist-log.logout a
+{
+	background-color: #CC4444;
+}
+/********************* End top navigation ***************************/
+
 #promotion
 {
-	height: 300px; 
-	width: 700px; 
+	height: 300px;
+	width: 700px;
 	background: url(/content/Images/home-showcase.png) no-repeat;
 }
 
@@ -54,7 +143,6 @@ ul li a
 
 ul
 {
-	list-style-type: square;
 	margin-left: 25px;
 	font-size: 14px;
 }
@@ -102,7 +190,7 @@ ul#album-list li a span
 	clear: both;
 	display: inline-block;
 	padding: 5px;
-	margin-top: 10px; 
+	margin-top: 10px;
 	border: 1px;
 	background: #5e5b54;
 	color: #fff;
@@ -123,39 +211,6 @@ ul#album-list li a span
 	border-bottom: 1px dotted #8A8575;
 	font-family: Constantia, Georgia, serif;
 }
-
-/******************** Top Navigation ************************/
-ul#navlist
-{
-	float: right;
-}
-
-ul#navlist li
-{
-	display: inline;
-}
-
-ul#navlist li a
-{
-	border-left: 1px dotted #8A8575;
-	padding: 10px;
-	margin-top: 10px;
-	color: #8A8575;
-	text-decoration: none;
-	float: left;
-}
-
-ul#navlist li:first-child a
-{
-	border: none;
-}
-
-ul#navlist li a:hover
-{
-	color: #F6855E;
-}
-
-/********************* End top navigation ***************************/
 
 p
 {

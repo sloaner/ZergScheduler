@@ -15,16 +15,10 @@ namespace ZergScheduler.Controllers
 		// GET: /Course/
 		public ActionResult Index()
 		{
-			// Create a list of genres
-			var departments = from department in courseDB.Departments
-							  orderby department.dept_title
-							  select department;
-
-			// Create our view model
 			var viewModel = new CourseIndexViewModel
 			{
-				NumberOfDepartments = departments.Count(),
-				Departments = departments.ToList()
+				NumberOfDepartments = courseDB.Departments.Count(),
+				Departments = courseDB.Departments.OrderBy(d => d.dept_title).ToList()
 			};
 
 			return View(viewModel);
@@ -50,6 +44,21 @@ namespace ZergScheduler.Controllers
 			var course = courseDB.Courses.Single(a => a.course_id == id);
 
 			return View(course);
+		}
+
+		[ChildActionOnly]
+		public ActionResult CourseFilter()
+		{
+			var viewModel = new SearchViewModel
+			{
+				Class = new Class(),
+				Course = new Course(),
+				Departments = courseDB.Departments.ToList(),
+				GFRs = courseDB.GFRs.ToList(),
+				GEPs = courseDB.GEPs.ToList(),
+				Semester = courseDB.Semesters.ToList()
+			};
+			return View(viewModel);
 		}
 	}
 }

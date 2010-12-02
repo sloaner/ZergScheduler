@@ -8,6 +8,7 @@ using ZergScheduler.ViewModels;
 
 namespace ZergScheduler.Controllers
 {
+	[Authorize(Roles="Administrator")]
 	public class CourseManagerController : Controller
 	{
 		ZergRushEntities courseDB = new ZergRushEntities();

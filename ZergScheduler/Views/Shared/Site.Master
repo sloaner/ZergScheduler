@@ -13,13 +13,23 @@
 </head>
 <body>
     <% Html.EnableClientValidation(); %>
-    <div>
+    <div id="container">
         <div id="header">
-            <h1>
-                Zerg Scheduler</h1>
+            <h1>Zerg Scheduler</h1>
             <ul id="navlist">
-                <li class="first"><a href="/" id="current">Home</a></li>
-                <li><a href="/Course/">Courses</a></li>
+                <li class="nav first"><%: Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav menu-label" })%></li>
+                <li class="nav"><%: Html.ActionLink("Browse", "Index", "Course", null, new { @class = "nav menu-label" })%></li>
+                <%
+                    if (Request.IsAuthenticated)
+                    {
+                %>
+                <li class="nav"><%: Page.User.Identity.Name %></li>
+                <li class="logout menu last" id="navlist-log"><%: Html.ActionLink("Log Off", "LogOff", "Account", null, new { @class = "nav menu-label" })%></li>
+                <%  } else {  %>
+                <li class="login menu last" id="navlist-log"><%: Html.ActionLink("Log On", "LogOn", "Account", null, new { @class = "nav menu-label" })%></li>
+                <%
+                    }
+                %>
             </ul>
         </div>
         <asp:ContentPlaceHolder ID="MainContent" runat="server">
