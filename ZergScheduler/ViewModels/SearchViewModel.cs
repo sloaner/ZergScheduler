@@ -13,6 +13,7 @@ namespace ZergScheduler.ViewModels
 		public List<Department> Departments { get; set; }
 		public List<GFR> GFRs { get; set; }
 		public List<GEP> GEPs { get; set; }
-		public List<Semester> Semester { get; set; }
+		public List<Semester> Semesters { get; set; }
+		public string CurrentSemester { get; set; }
 	}
 }

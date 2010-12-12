@@ -19,7 +19,6 @@ using System.Runtime.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Class_Course", "Course", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.Course), "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Class), true)]
-[assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Class_Timeslot", "Timeslot", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ZergScheduler.Models.Timeslot), "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Class), true)]
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Class_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.User), "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Class), true)]
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Course_Department", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.Department), "Course", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Course), true)]
 [assembly: EdmRelationshipAttribute("ZergRushModel", "Role", "Role_Type", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Role_Type), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.User))]
@@ -27,6 +26,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Takes_Class", "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.Class), "Take", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Take), true)]
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Takes_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.User), "Take", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Take), true)]
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_User_Department", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ZergScheduler.Models.Department), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.User), true)]
+[assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Class_Timeslot", "Timeslot", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ZergScheduler.Models.Timeslot), "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Class), true)]
 
 #endregion
 
@@ -209,22 +209,6 @@ namespace ZergScheduler.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Timeslot> Timeslots
-        {
-            get
-            {
-                if ((_Timeslots == null))
-                {
-                    _Timeslots = base.CreateObjectSet<Timeslot>("Timeslots");
-                }
-                return _Timeslots;
-            }
-        }
-        private ObjectSet<Timeslot> _Timeslots;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<User> Users
         {
             get
@@ -269,6 +253,38 @@ namespace ZergScheduler.Models
             }
         }
         private ObjectSet<Student> _Students;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Timeslot> Timeslots
+        {
+            get
+            {
+                if ((_Timeslots == null))
+                {
+                    _Timeslots = base.CreateObjectSet<Timeslot>("Timeslots");
+                }
+                return _Timeslots;
+            }
+        }
+        private ObjectSet<Timeslot> _Timeslots;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Current_Semester> Current_Semester
+        {
+            get
+            {
+                if ((_Current_Semester == null))
+                {
+                    _Current_Semester = base.CreateObjectSet<Current_Semester>("Current_Semester");
+                }
+                return _Current_Semester;
+            }
+        }
+        private ObjectSet<Current_Semester> _Current_Semester;
 
         #endregion
         #region AddTo Methods
@@ -338,14 +354,6 @@ namespace ZergScheduler.Models
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Timeslots EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToTimeslots(Timeslot timeslot)
-        {
-            base.AddObject("Timeslots", timeslot);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the Users EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToUsers(User user)
@@ -367,6 +375,85 @@ namespace ZergScheduler.Models
         public void AddToStudents(Student student)
         {
             base.AddObject("Students", student);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Timeslots EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTimeslots(Timeslot timeslot)
+        {
+            base.AddObject("Timeslots", timeslot);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Current_Semester EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCurrent_Semester(Current_Semester current_Semester)
+        {
+            base.AddObject("Current_Semester", current_Semester);
+        }
+
+        #endregion
+        #region Function Imports
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="class_id">No Metadata Documentation available.</param>
+        /// <param name="semester_id">No Metadata Documentation available.</param>
+        public ObjectResult<Nullable<global::System.Int32>> GetClassEnrollment(Nullable<global::System.Int32> class_id, global::System.String semester_id)
+        {
+            ObjectParameter class_idParameter;
+            if (class_id.HasValue)
+            {
+                class_idParameter = new ObjectParameter("class_id", class_id);
+            }
+            else
+            {
+                class_idParameter = new ObjectParameter("class_id", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter semester_idParameter;
+            if (semester_id != null)
+            {
+                semester_idParameter = new ObjectParameter("semester_id", semester_id);
+            }
+            else
+            {
+                semester_idParameter = new ObjectParameter("semester_id", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction<Nullable<global::System.Int32>>("GetClassEnrollment", class_idParameter, semester_idParameter);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="class_id">No Metadata Documentation available.</param>
+        /// <param name="semester_id">No Metadata Documentation available.</param>
+        public ObjectResult<Nullable<global::System.Int32>> GetClassWaitlist(Nullable<global::System.Int32> class_id, global::System.String semester_id)
+        {
+            ObjectParameter class_idParameter;
+            if (class_id.HasValue)
+            {
+                class_idParameter = new ObjectParameter("class_id", class_id);
+            }
+            else
+            {
+                class_idParameter = new ObjectParameter("class_id", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter semester_idParameter;
+            if (semester_id != null)
+            {
+                semester_idParameter = new ObjectParameter("semester_id", semester_id);
+            }
+            else
+            {
+                semester_idParameter = new ObjectParameter("semester_id", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction<Nullable<global::System.Int32>>("GetClassWaitlist", class_idParameter, semester_idParameter);
         }
 
         #endregion
@@ -757,44 +844,6 @@ namespace ZergScheduler.Models
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Class_Timeslot", "Timeslot")]
-        public Timeslot Timeslot
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Timeslot> TimeslotReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Class_User", "User")]
         public User User
         {
@@ -883,6 +932,44 @@ namespace ZergScheduler.Models
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Take>("ZergRushModel.FK_Takes_Class", "Take", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Class_Timeslot", "Timeslot")]
+        public Timeslot Timeslot
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Timeslot> TimeslotReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot", value);
                 }
             }
         }
@@ -1200,6 +1287,61 @@ namespace ZergScheduler.Models
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ZergRushModel", Name="Current_Semester")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Current_Semester : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Current_Semester object.
+        /// </summary>
+        /// <param name="semester_id">Initial value of the semester_id property.</param>
+        public static Current_Semester CreateCurrent_Semester(global::System.String semester_id)
+        {
+            Current_Semester current_Semester = new Current_Semester();
+            current_Semester.semester_id = semester_id;
+            return current_Semester;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String semester_id
+        {
+            get
+            {
+                return _semester_id;
+            }
+            set
+            {
+                if (_semester_id != value)
+                {
+                    Onsemester_idChanging(value);
+                    ReportPropertyChanging("semester_id");
+                    _semester_id = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("semester_id");
+                    Onsemester_idChanged();
+                }
+            }
+        }
+        private global::System.String _semester_id;
+        partial void Onsemester_idChanging(global::System.String value);
+        partial void Onsemester_idChanged();
+
+        #endregion
+    
     }
     
     /// <summary>
@@ -2304,7 +2446,9 @@ namespace ZergScheduler.Models
         /// <param name="start_min">Initial value of the start_min property.</param>
         /// <param name="end_hr">Initial value of the end_hr property.</param>
         /// <param name="end_min">Initial value of the end_min property.</param>
-        public static Timeslot CreateTimeslot(global::System.Int32 timeslot_id, global::System.Int32 start_hr, global::System.Int32 start_min, global::System.Int32 end_hr, global::System.Int32 end_min)
+        /// <param name="start_time">Initial value of the start_time property.</param>
+        /// <param name="end_time">Initial value of the end_time property.</param>
+        public static Timeslot CreateTimeslot(global::System.Int32 timeslot_id, global::System.Int32 start_hr, global::System.Int32 start_min, global::System.Int32 end_hr, global::System.Int32 end_min, global::System.DateTime start_time, global::System.DateTime end_time)
         {
             Timeslot timeslot = new Timeslot();
             timeslot.timeslot_id = timeslot_id;
@@ -2312,6 +2456,8 @@ namespace ZergScheduler.Models
             timeslot.start_min = start_min;
             timeslot.end_hr = end_hr;
             timeslot.end_min = end_min;
+            timeslot.start_time = start_time;
+            timeslot.end_time = end_time;
             return timeslot;
         }
 
@@ -2440,6 +2586,54 @@ namespace ZergScheduler.Models
         private global::System.Int32 _end_min;
         partial void Onend_minChanging(global::System.Int32 value);
         partial void Onend_minChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime start_time
+        {
+            get
+            {
+                return _start_time;
+            }
+            set
+            {
+                Onstart_timeChanging(value);
+                ReportPropertyChanging("start_time");
+                _start_time = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("start_time");
+                Onstart_timeChanged();
+            }
+        }
+        private global::System.DateTime _start_time;
+        partial void Onstart_timeChanging(global::System.DateTime value);
+        partial void Onstart_timeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime end_time
+        {
+            get
+            {
+                return _end_time;
+            }
+            set
+            {
+                Onend_timeChanging(value);
+                ReportPropertyChanging("end_time");
+                _end_time = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("end_time");
+                Onend_timeChanged();
+            }
+        }
+        private global::System.DateTime _end_time;
+        partial void Onend_timeChanging(global::System.DateTime value);
+        partial void Onend_timeChanged();
 
         #endregion
     

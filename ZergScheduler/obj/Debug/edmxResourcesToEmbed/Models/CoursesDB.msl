@@ -92,17 +92,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Timeslots">
-      <EntityTypeMapping TypeName="ZergRushModel.Timeslot">
-        <MappingFragment StoreEntitySet="Timeslot">
-          <ScalarProperty Name="end_min" ColumnName="end_min" />
-          <ScalarProperty Name="end_hr" ColumnName="end_hr" />
-          <ScalarProperty Name="start_min" ColumnName="start_min" />
-          <ScalarProperty Name="start_hr" ColumnName="start_hr" />
-          <ScalarProperty Name="timeslot_id" ColumnName="timeslot_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="ZergRushModel.User">
         <MappingFragment StoreEntitySet="User">
@@ -139,5 +128,27 @@
         <ScalarProperty Name="role_id" ColumnName="role_id" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Timeslots">
+      <EntityTypeMapping TypeName="ZergRushModel.Timeslot">
+        <MappingFragment StoreEntitySet="Timeslot">
+          <ScalarProperty Name="end_time" ColumnName="end_time" />
+          <ScalarProperty Name="start_time" ColumnName="start_time" />
+          <ScalarProperty Name="end_min" ColumnName="end_min" />
+          <ScalarProperty Name="end_hr" ColumnName="end_hr" />
+          <ScalarProperty Name="start_min" ColumnName="start_min" />
+          <ScalarProperty Name="start_hr" ColumnName="start_hr" />
+          <ScalarProperty Name="timeslot_id" ColumnName="timeslot_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetClassEnrollment" FunctionName="ZergRushModel.Store.GetClassEnrollment" />
+    <FunctionImportMapping FunctionImportName="GetClassWaitlist" FunctionName="ZergRushModel.Store.GetClassWaitlist" />
+    <EntitySetMapping Name="Current_Semester">
+      <EntityTypeMapping TypeName="ZergRushModel.Current_Semester">
+        <MappingFragment StoreEntitySet="Current_Semester">
+          <ScalarProperty Name="semester_id" ColumnName="semester_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

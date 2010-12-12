@@ -9,16 +9,11 @@
     <EntitySet Name="Role_Type" EntityType="ZergRushModel.Role_Type" />
     <EntitySet Name="Semesters" EntityType="ZergRushModel.Semester" />
     <EntitySet Name="Takes" EntityType="ZergRushModel.Take" />
-    <EntitySet Name="Timeslots" EntityType="ZergRushModel.Timeslot" />
     <EntitySet Name="Users" EntityType="ZergRushModel.User" />
     <EntitySet Name="Instructors" EntityType="ZergRushModel.Instructor" />
     <EntitySet Name="Students" EntityType="ZergRushModel.Student" />
     <AssociationSet Name="FK_Class_Course" Association="ZergRushModel.FK_Class_Course">
       <End Role="Course" EntitySet="Courses" />
-      <End Role="Class" EntitySet="Classes" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Class_Timeslot" Association="ZergRushModel.FK_Class_Timeslot">
-      <End Role="Timeslot" EntitySet="Timeslots" />
       <End Role="Class" EntitySet="Classes" />
     </AssociationSet>
     <AssociationSet Name="FK_Class_User" Association="ZergRushModel.FK_Class_User">
@@ -49,6 +44,20 @@
       <End Role="Department" EntitySet="Departments" />
       <End Role="User" EntitySet="Users" />
     </AssociationSet>
+    <EntitySet Name="Timeslots" EntityType="ZergRushModel.Timeslot" />
+    <AssociationSet Name="FK_Class_Timeslot" Association="ZergRushModel.FK_Class_Timeslot">
+      <End Role="Timeslot" EntitySet="Timeslots" />
+      <End Role="Class" EntitySet="Classes" />
+    </AssociationSet>
+    <FunctionImport Name="GetClassEnrollment" ReturnType="Collection(Int32)">
+      <Parameter Name="class_id" Mode="In" Type="Int32" />
+      <Parameter Name="semester_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetClassWaitlist" ReturnType="Collection(Int32)">
+      <Parameter Name="class_id" Mode="In" Type="Int32" />
+      <Parameter Name="semester_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Current_Semester" EntityType="ZergRushModel.Current_Semester" />
   </EntityContainer>
   <EntityType Name="Class">
     <Key>
@@ -68,10 +77,10 @@
     <Property Type="Boolean" Name="has_children" Nullable="false" />
     <Property Type="Int32" Name="parent_class_id" />
     <NavigationProperty Name="Course" Relationship="ZergRushModel.FK_Class_Course" FromRole="Class" ToRole="Course" />
-    <NavigationProperty Name="Timeslot" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Class" ToRole="Timeslot" />
     <NavigationProperty Name="User" Relationship="ZergRushModel.FK_Class_User" FromRole="Class" ToRole="User" />
     <NavigationProperty Name="Semester" Relationship="ZergRushModel.FK_Class_Semester" FromRole="Class" ToRole="Semester" />
     <NavigationProperty Name="Takes" Relationship="ZergRushModel.FK_Takes_Class" FromRole="Class" ToRole="Take" />
+    <NavigationProperty Name="Timeslot" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Class" ToRole="Timeslot" />
   </EntityType>
   <EntityType Name="Course">
     <Key>
@@ -149,17 +158,6 @@
     <NavigationProperty Name="Class" Relationship="ZergRushModel.FK_Takes_Class" FromRole="Take" ToRole="Class" />
     <NavigationProperty Name="User" Relationship="ZergRushModel.FK_Takes_User" FromRole="Take" ToRole="User" />
   </EntityType>
-  <EntityType Name="Timeslot">
-    <Key>
-      <PropertyRef Name="timeslot_id" />
-    </Key>
-    <Property Type="Int32" Name="timeslot_id" Nullable="false" />
-    <Property Type="Int32" Name="start_hr" Nullable="false" />
-    <Property Type="Int32" Name="start_min" Nullable="false" />
-    <Property Type="Int32" Name="end_hr" Nullable="false" />
-    <Property Type="Int32" Name="end_min" Nullable="false" />
-    <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Timeslot" ToRole="Class" />
-  </EntityType>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="user_id" />
@@ -198,18 +196,6 @@
       </Principal>
       <Dependent Role="Class">
         <PropertyRef Name="course_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Class_Timeslot">
-    <End Type="ZergRushModel.Timeslot" Role="Timeslot" Multiplicity="0..1" />
-    <End Type="ZergRushModel.Class" Role="Class" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Timeslot">
-        <PropertyRef Name="timeslot_id" />
-      </Principal>
-      <Dependent Role="Class">
-        <PropertyRef Name="timeslot_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -291,4 +277,35 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Timeslot">
+    <Key>
+      <PropertyRef Name="timeslot_id" />
+    </Key>
+    <Property Type="Int32" Name="timeslot_id" Nullable="false" />
+    <Property Type="Int32" Name="start_hr" Nullable="false" />
+    <Property Type="Int32" Name="start_min" Nullable="false" />
+    <Property Type="Int32" Name="end_hr" Nullable="false" />
+    <Property Type="Int32" Name="end_min" Nullable="false" />
+    <Property Type="DateTime" Name="start_time" Nullable="false" />
+    <Property Type="DateTime" Name="end_time" Nullable="false" />
+    <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Timeslot" ToRole="Class" />
+  </EntityType>
+  <Association Name="FK_Class_Timeslot">
+    <End Type="ZergRushModel.Timeslot" Role="Timeslot" Multiplicity="0..1" />
+    <End Type="ZergRushModel.Class" Role="Class" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Timeslot">
+        <PropertyRef Name="timeslot_id" />
+      </Principal>
+      <Dependent Role="Class">
+        <PropertyRef Name="timeslot_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Current_Semester">
+    <Key>
+      <PropertyRef Name="semester_id" />
+    </Key>
+    <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+  </EntityType>
 </Schema>

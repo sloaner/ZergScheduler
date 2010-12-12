@@ -3,6 +3,11 @@
   <EntityContainer Name="ZergRushModelStoreContainer">
     <EntitySet Name="Class" EntityType="ZergRushModel.Store.Class" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Course" EntityType="ZergRushModel.Store.Course" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Current_Semester" EntityType="ZergRushModel.Store.Current_Semester" store:Type="Tables" store:Schema="dbo" store:Name="Current_Semester">
+      <DefiningQuery>SELECT 
+      [Current_Semester].[semester_id] AS [semester_id]
+      FROM [dbo].[Current_Semester] AS [Current_Semester]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="Department" EntityType="ZergRushModel.Store.Department" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GEP" EntityType="ZergRushModel.Store.GEP" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GFR" EntityType="ZergRushModel.Store.GFR" store:Type="Tables" Schema="dbo" />
@@ -97,6 +102,15 @@
     <Property Name="gfr" Type="int" />
     <Property Name="gep" Type="int" />
   </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'CMSC345.dbo.Current_Semester' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="Current_Semester">
+    <Key>
+      <PropertyRef Name="semester_id" />
+    </Key>
+    <Property Name="semester_id" Type="nchar" Nullable="false" MaxLength="4" />
+  </EntityType>
   <EntityType Name="Department">
     <Key>
       <PropertyRef Name="dept_id" />
@@ -168,6 +182,8 @@
     <Property Name="start_min" Type="int" Nullable="false" />
     <Property Name="end_hr" Type="int" Nullable="false" />
     <Property Name="end_min" Type="int" Nullable="false" />
+    <Property Name="start_time" Type="datetime2" Nullable="false" />
+    <Property Name="end_time" Type="datetime2" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -322,4 +338,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="GetClassEnrollment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="class_id" Type="int" Mode="In" />
+    <Parameter Name="semester_id" Type="nchar" Mode="In" />
+  </Function>
+  <Function Name="GetClassWaitlist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="class_id" Type="int" Mode="In" />
+    <Parameter Name="semester_id" Type="nchar" Mode="In" />
+  </Function>
 </Schema>

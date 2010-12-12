@@ -7,6 +7,7 @@
     <script src="/Scripts/MicrosoftAjax.js" type="text/javascript"></script>
     <script src="/Scripts/MicrosoftMvcAjax.js" type="text/javascript"></script>
     <script src="/Scripts/MicrosoftMvcValidation.js" type="text/javascript"></script>
+    <script src="../../Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
     <title>
         <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
     </title>
@@ -23,7 +24,7 @@
                     if (Request.IsAuthenticated)
                     {
                 %>
-                <li class="nav"><%: Page.User.Identity.Name %></li>
+                <li class="nav name"><%: Page.User.Identity.Name %></li>
                 <li class="logout menu last" id="navlist-log"><%: Html.ActionLink("Log Off", "LogOff", "Account", null, new { @class = "nav menu-label" })%></li>
                 <%  } else {  %>
                 <li class="login menu last" id="navlist-log"><%: Html.ActionLink("Log On", "LogOn", "Account", null, new { @class = "nav menu-label" })%></li>

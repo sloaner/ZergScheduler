@@ -39,11 +39,6 @@ div
 	padding: 45px 0px 5px 0px;
 }
 
-#body
-{
-	position: relative;
-}
-
 /******************** Top Navigation ************************/
 #navlist
 {
@@ -60,8 +55,8 @@ div
 }
 
 .menu-label
-{	
-	display:block;
+{
+	display: block;
 }
 
 #navlist .menu-label
@@ -91,6 +86,10 @@ div
 	-webkit-border-radius: 4px;
 }
 
+#navlist .nav.name
+{
+	color: White;
+}
 
 #navlist .nav .menu-label:hover
 {
@@ -122,12 +121,108 @@ div
 	background-color: #CC4444;
 }
 /********************* End top navigation ***************************/
-
-#promotion
+#searchPanel
 {
-	height: 300px;
-	width: 700px;
-	background: url(/content/Images/home-showcase.png) no-repeat;
+	width: 300px;
+	padding: 5px;
+	background-color: #CCC;
+	float: left;
+}
+
+#searchPanel .checkBox
+{
+	background-color: White;
+	overflow: auto;
+	height: 150px;
+	border: 1px solid #336699;
+	padding: 5px;
+}
+
+#searchPanel p
+{
+	margin-top:5px;
+	margin-bottom:5px;
+}
+
+#searchPanel p.inline_form
+{
+	display: table;
+	width: 100%;
+	padding: 5px;
+	border-collapse: collapse;
+}
+#searchPanel p.inline_form label
+{
+	display: table-cell;
+	width: 1px;
+	padding-right: 2px;
+}
+
+#searchPanel input[type=text], #searchPanel input[type=password], #searchPanel select
+{
+	display: table-cell;
+	width: 100%;
+}
+
+#searchPanel .comparer
+{
+	width: 15%;
+}
+
+#searchPanel input[type=text].time
+{
+	width: 83%;
+	float:right;
+}
+
+#extraOptionsHead
+{
+	background: url(/content/Images/arrow-left.png) no-repeat;
+	background-position: 98% center;
+	background-color: #EEE;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	padding: 3px;
+	cursor: pointer;
+}
+
+#extraOptionsHead.expanded
+{
+	background-image: url(/content/Images/arrow-down.png);
+}
+
+#searchDetails
+{
+	margin-left: 315px;
+}
+
+#courseResult legend
+{
+	cursor: pointer;
+}
+
+#classResult tbody
+{
+	border: thin solid black;
+}
+
+#classResult tr
+{
+	border: none;
+}
+
+#classResult .addClass
+{
+	width: auto;
+}
+
+#classResult .classParentRow
+{
+}
+
+#classResult .classChildRow
+{
+	background-color: #DDD;
 }
 
 ul li a
@@ -307,9 +402,8 @@ legend
 fieldset
 {
 	border: #9b9993 1px solid;
-	padding: 0 10px;
+	padding: 0 10px 10px 10px;
 	margin-bottom: 10px;
-	clear: left;
 }
 
 div.editor-field

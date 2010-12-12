@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=4.1.40412.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -72,6 +75,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\CourseManagerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ScheduleManagerController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -94,8 +98,14 @@
     <Compile Include="ViewModels\CourseManagerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\add.png" />
+    <Content Include="Content\Images\arrow-left.png" />
+    <Content Include="Content\Images\arrow-right.png" />
+    <Content Include="Content\Images\expander-arrow-down.gif" />
     <Content Include="Content\Images\home-showcase2.png" />
+    <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\logo2.png" />
+    <Content Include="Content\Images\arrow-down.png" />
     <Content Include="Content\Images\placeholder.gif" />
     <Content Include="Content\StyleSheet1.css" />
     <Content Include="Global.asax" />
@@ -114,6 +124,7 @@
     <Content Include="Views\Course\Details.aspx" />
     <Content Include="Views\Course\Index.aspx" />
     <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\Search\ClassFilter.ascx" />
     <Content Include="Views\Search\Index.aspx" />
     <Content Include="Views\Shared\EditorTemplates\Course.ascx" />
     <Content Include="Web.config">

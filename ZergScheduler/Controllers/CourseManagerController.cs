@@ -77,7 +77,6 @@ namespace ZergScheduler.Controllers
 				Departments = courseDB.Departments.ToList(),
 				GFRs = courseDB.GFRs.ToList(),
 				GEPs = courseDB.GEPs.ToList()
-
 			};
 
 			return View(viewModel);

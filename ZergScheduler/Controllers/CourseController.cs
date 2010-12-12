@@ -56,7 +56,7 @@ namespace ZergScheduler.Controllers
 				Departments = courseDB.Departments.ToList(),
 				GFRs = courseDB.GFRs.ToList(),
 				GEPs = courseDB.GEPs.ToList(),
-				Semester = courseDB.Semesters.ToList()
+				Semesters = courseDB.Semesters.ToList()
 			};
 			return View(viewModel);
 		}
