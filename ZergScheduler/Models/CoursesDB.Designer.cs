@@ -455,6 +455,58 @@ namespace ZergScheduler.Models
     
             return base.ExecuteFunction<Nullable<global::System.Int32>>("GetClassWaitlist", class_idParameter, semester_idParameter);
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="student_id">No Metadata Documentation available.</param>
+        /// <param name="class_id">No Metadata Documentation available.</param>
+        /// <param name="semester_id">No Metadata Documentation available.</param>
+        /// <param name="waitlist_status">No Metadata Documentation available.</param>
+        public int RegisterForClass(global::System.String student_id, Nullable<global::System.Int32> class_id, global::System.String semester_id, Nullable<global::System.Boolean> waitlist_status)
+        {
+            ObjectParameter student_idParameter;
+            if (student_id != null)
+            {
+                student_idParameter = new ObjectParameter("student_id", student_id);
+            }
+            else
+            {
+                student_idParameter = new ObjectParameter("student_id", typeof(global::System.String));
+            }
+    
+            ObjectParameter class_idParameter;
+            if (class_id.HasValue)
+            {
+                class_idParameter = new ObjectParameter("class_id", class_id);
+            }
+            else
+            {
+                class_idParameter = new ObjectParameter("class_id", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter semester_idParameter;
+            if (semester_id != null)
+            {
+                semester_idParameter = new ObjectParameter("semester_id", semester_id);
+            }
+            else
+            {
+                semester_idParameter = new ObjectParameter("semester_id", typeof(global::System.String));
+            }
+    
+            ObjectParameter waitlist_statusParameter;
+            if (waitlist_status.HasValue)
+            {
+                waitlist_statusParameter = new ObjectParameter("waitlist_status", waitlist_status);
+            }
+            else
+            {
+                waitlist_statusParameter = new ObjectParameter("waitlist_status", typeof(global::System.Boolean));
+            }
+    
+            return base.ExecuteFunction("RegisterForClass", student_idParameter, class_idParameter, semester_idParameter, waitlist_statusParameter);
+        }
 
         #endregion
     }

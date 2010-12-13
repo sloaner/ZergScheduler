@@ -150,5 +150,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="RegisterForClass" FunctionName="ZergRushModel.Store.sp_RegisterForClass" />
   </EntityContainerMapping>
 </Mapping>

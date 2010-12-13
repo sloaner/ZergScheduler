@@ -346,4 +346,10 @@
     <Parameter Name="class_id" Type="int" Mode="In" />
     <Parameter Name="semester_id" Type="nchar" Mode="In" />
   </Function>
+  <Function Name="sp_RegisterForClass" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="student_id" Type="nvarchar" Mode="In" />
+    <Parameter Name="class_id" Type="int" Mode="In" />
+    <Parameter Name="semester_id" Type="nchar" Mode="In" />
+    <Parameter Name="waitlist_status" Type="bit" Mode="In" />
+  </Function>
 </Schema>
