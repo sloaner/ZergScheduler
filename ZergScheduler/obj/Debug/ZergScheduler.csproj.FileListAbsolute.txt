@@ -3,6 +3,7 @@ C:\Documents and Settings\Jeremy\my documents\visual studio 2010\Projects\ZergSc
 C:\Documents and Settings\Jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\Jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.dll
 C:\Documents and Settings\Jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.pdb
+<<<<<<< HEAD
 C:\Documents and Settings\Jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\bin\AjaxControlToolkit.pdb
 C:\Documents and Settings\Jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\bin\ar\AjaxControlToolkit.resources.dll
 C:\Documents and Settings\Jeremy\my documents\visual studio 2010\Projects\ZergScheduler\ZergScheduler\bin\cs\AjaxControlToolkit.resources.dll
@@ -42,3 +43,5 @@ C:\Users\zerg\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\
 C:\Users\zerg\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\zerg\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.dll
 C:\Users\zerg\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.pdb
+=======
+>>>>>>> 2c31de96281e7cd63cf4767ddd14da7388118415

@@ -26,7 +26,8 @@
                 <tbody>
                     <tr class="classParentRow">
                         <td class="addClass">
-                            <img alt="add" src="../../Content/Images/add.png" />
+                            <%: Ajax.ActionLink("Register", "Register", "ScheduleManager", new { reg_class = classResult }, new AjaxOptions() { HttpMethod = "Post" }) %>
+                            <!--//.ToHtmlString().Replace("[Replaceme]",@"<img alt=""add"" src=""../../Content/Images/add.png"" />"-->
                         </td>
                         <td>
                             <%: classResult.sect_id %>
@@ -76,7 +77,8 @@
                 <% } else { %>
                 <tbody>
                     <tr class="classChildRow">
-                    <td></td>
+                        <td>
+                        </td>
                         <td>
                             <%: classResult.sect_id %>
                             (<%:classResult.class_id %>)

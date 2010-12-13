@@ -54,7 +54,7 @@ namespace ZergScheduler.Controllers
 
 			var courses = from course in courseDB.Courses
 						  where (depts.Count() < 1 || depts.Contains(course.dept_id))
-						  && (course_no == "" || course.description.Contains(course_no))
+						  && (course_no == "" || course.course_no == course_no)
 						  && (!show_offered || course.Classes.Any(c => c.semster_id == semester_id))
 						  && (credits == 0 || course.credits == credits)
 						  && (gfrs == 0 || (course.gfr & gfrs) != 0)
