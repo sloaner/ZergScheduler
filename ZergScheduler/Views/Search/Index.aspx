@@ -87,7 +87,7 @@
                 <input type="submit" value="Search" /></p>
             <% } %>
         </div>
-        <img id="loading" src="../../Content/Images/loading.gif" style="display: none;" alt="Loading..." />
+        <img id="loading" src="<%: Url.Content("~/Content/Images/loading.gif") %>" style="display: none;" alt="Loading..." />
         <div id="searchDetails">
         </div>
     </div>
