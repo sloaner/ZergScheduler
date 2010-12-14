@@ -8,8 +8,7 @@
 <div id="courseResult">
     <fieldset>
         <legend>
-            <%: item.course_id + " " + item.title %>&nbsp;(<%: item.credits %>&nbsp;credits)
-        </legend>
+            <%: item.course_id + " " + item.title %>&nbsp;(<%: item.credits %>&nbsp;credits) </legend>
         <div <%=(Model.Count() > 1) ? "style=\"display: none;\"": ""%>>
             <p>
                 <%: item.description %>
@@ -26,8 +25,7 @@
                 <tbody>
                     <tr class="classParentRow">
                         <td class="addClass">
-                            <%: Ajax.ActionLink("Register", "Register", "ScheduleManager", new { reg_class = classResult }, new AjaxOptions() { HttpMethod = "Post" }) %>
-                            <!--//.ToHtmlString().Replace("[Replaceme]",@"<img alt=""add"" src=""../../Content/Images/add.png"" />"-->
+                            <%= Ajax.ActionLink("[Replaceme]", "Register", "ScheduleManager", new { class_id = classResult.class_id, semester_id = classResult.semster_id }, new AjaxOptions() { HttpMethod = "POST" }).ToHtmlString().Replace("[Replaceme]", @"<img alt=""add"" src="""+ Url.Content("~/Content/Images/add.png") + "\" />")%>
                         </td>
                         <td>
                             <%: classResult.sect_id %>

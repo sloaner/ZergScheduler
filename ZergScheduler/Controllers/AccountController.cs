@@ -39,28 +39,21 @@ namespace ZergScheduler.Controllers
 		[HttpPost]
 		public ActionResult LogOn(LogOnModel model, string returnUrl)
 		{
-			if (ModelState.IsValid)
-			{
-				if (MembershipService.ValidateUser(model.UserName, model.Password))
-				{
-					//FormsService.SignIn(model.UserName, model.RememberMe);
+			if (ModelState.IsValid) {
+				if (MembershipService.ValidateUser(model.UserName, model.Password)) {
+
+					MigrateShoppingCart(model.UserName);
 					FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+
 					if (!String.IsNullOrEmpty(returnUrl))
-					{
 						return Redirect(returnUrl);
-					}
 					else
-					{
 						return RedirectToAction("Index", "Home");
-					}
-				}
-				else
-				{
+
+				} else {
 					ModelState.AddModelError("", "The user name or password provided is incorrect.");
 				}
 			}
-
-			// If we got this far, something failed, redisplay form
 			return View(model);
 		}
 
@@ -75,80 +68,11 @@ namespace ZergScheduler.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		// **************************************
-		// URL: /Account/Register
-		// **************************************
-
-		public ActionResult Register()
+		private void MigrateShoppingCart(string user_id)
 		{
-			ViewData["PasswordLength"] = MembershipService.MinPasswordLength;
-			return View();
+			var cart = ShoppingCart.GetCart(this.HttpContext);
+			cart.MigrateCart(user_id);
+			Session[ShoppingCart.cart_session_key] = user_id;
 		}
-
-		[HttpPost]
-		public ActionResult Register(RegisterModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				// Attempt to register the user
-				MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email);
-
-				if (createStatus == MembershipCreateStatus.Success)
-				{
-					FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
-					return RedirectToAction("Index", "Home");
-				}
-				else
-				{
-					ModelState.AddModelError("", AccountValidation.ErrorCodeToString(createStatus));
-				}
-			}
-
-			// If we got this far, something failed, redisplay form
-			ViewData["PasswordLength"] = MembershipService.MinPasswordLength;
-			return View(model);
-		}
-
-		// **************************************
-		// URL: /Account/ChangePassword
-		// **************************************
-
-		[Authorize]
-		public ActionResult ChangePassword()
-		{
-			ViewData["PasswordLength"] = MembershipService.MinPasswordLength;
-			return View();
-		}
-
-		[Authorize]
-		[HttpPost]
-		public ActionResult ChangePassword(ChangePasswordModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				if (MembershipService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword))
-				{
-					return RedirectToAction("ChangePasswordSuccess");
-				}
-				else
-				{
-					ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-				}
-			}
-
-			// If we got this far, something failed, redisplay form
-			ViewData["PasswordLength"] = MembershipService.MinPasswordLength;
-			return View(model);
-		}
-
-		// **************************************
-		// URL: /Account/ChangePasswordSuccess
-		// **************************************
-
-		public ActionResult ChangePasswordSuccess()
-		{
-			return View();
-		}
-
 	}
 }

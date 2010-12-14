@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="ZergRushModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="ZergRushModelStoreContainer">
+          <EntitySet Name="Cart" EntityType="ZergRushModel.Store.Cart" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Class" EntityType="ZergRushModel.Store.Class" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Course" EntityType="ZergRushModel.Store.Course" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Current_Semester" EntityType="ZergRushModel.Store.Current_Semester" store:Type="Tables" store:Schema="dbo" store:Name="Current_Semester">
@@ -34,6 +35,10 @@
       [Student].[major] AS [major]
       FROM [dbo].[Student] AS [Student]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_Cart_Class" Association="ZergRushModel.Store.FK_Cart_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
           <AssociationSet Name="FK_Class_Course" Association="ZergRushModel.Store.FK_Class_Course">
             <End Role="Course" EntitySet="Course" />
             <End Role="Class" EntitySet="Class" />
@@ -75,6 +80,15 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="record_id" />
+          </Key>
+          <Property Name="record_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="class_id" Type="int" Nullable="false" />
+          <Property Name="semester_id" Type="nchar" Nullable="false" MaxLength="4" />
+        </EntityType>
         <EntityType Name="Class">
           <Key>
             <PropertyRef Name="class_id" />
@@ -221,6 +235,20 @@
           <Property Name="student_id" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="major" Type="nvarchar" MaxLength="10" />
         </EntityType>
+        <Association Name="FK_Cart_Class">
+          <End Role="Class" Type="ZergRushModel.Store.Class" Multiplicity="1" />
+          <End Role="Cart" Type="ZergRushModel.Store.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="class_id" />
+              <PropertyRef Name="semster_id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="class_id" />
+              <PropertyRef Name="semester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Class_Course">
           <End Role="Course" Type="ZergRushModel.Store.Course" Multiplicity="1" />
           <End Role="Class" Type="ZergRushModel.Store.Class" Multiplicity="*" />
@@ -425,6 +453,11 @@
             <Parameter Name="semester_id" Mode="In" Type="String" />
             <Parameter Name="waitlist_status" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <EntitySet Name="Carts" EntityType="ZergRushModel.Cart" />
+          <AssociationSet Name="FK_Cart_Class" Association="ZergRushModel.FK_Cart_Class">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Cart" EntitySet="Carts" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Class">
           <Key>
@@ -448,6 +481,7 @@
           <NavigationProperty Name="Semester" Relationship="ZergRushModel.FK_Class_Semester" FromRole="Class" ToRole="Semester" />
           <NavigationProperty Name="Takes" Relationship="ZergRushModel.FK_Takes_Class" FromRole="Class" ToRole="Take" />
           <NavigationProperty Name="Timeslot" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Class" ToRole="Timeslot" />
+          <NavigationProperty Name="Carts" Relationship="ZergRushModel.FK_Cart_Class" FromRole="Class" ToRole="Cart" />
         </EntityType>
         <EntityType Name="Course">
           <Key>
@@ -675,6 +709,30 @@
           </Key>
           <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
         </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="record_id" />
+          </Key>
+          <Property Type="Int32" Name="record_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="user_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="class_id" Nullable="false" />
+          <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Class" Relationship="ZergRushModel.FK_Cart_Class" FromRole="Cart" ToRole="Class" />
+        </EntityType>
+        <Association Name="FK_Cart_Class">
+          <End Type="ZergRushModel.Class" Role="Class" Multiplicity="1" />
+          <End Type="ZergRushModel.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="class_id" />
+              <PropertyRef Name="semster_id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="class_id" />
+              <PropertyRef Name="semester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -831,6 +889,16 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="RegisterForClass" FunctionName="ZergRushModel.Store.sp_RegisterForClass" />
+          <EntitySetMapping Name="Carts">
+            <EntityTypeMapping TypeName="ZergRushModel.Cart">
+              <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="semester_id" ColumnName="semester_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="record_id" ColumnName="record_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -851,56 +919,61 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="CoursesDB" ZoomLevel="64">
-        <EntityTypeShape EntityType="ZergRushModel.Class" Width="1.5" PointX="3.5" PointY="1.5" Height="4.2317513020833326" />
-        <EntityTypeShape EntityType="ZergRushModel.Course" Width="1.5" PointX="1" PointY="3" Height="3.0947884114583384" />
-        <EntityTypeShape EntityType="ZergRushModel.Department" Width="1.5" PointX="1" PointY="0.5" Height="1.7683317057291661" />
-        <EntityTypeShape EntityType="ZergRushModel.GEP" Width="1.5" PointX="11.25" PointY="4.375" Height="1.5788378906250031" />
-        <EntityTypeShape EntityType="ZergRushModel.GFR" Width="1.5" PointX="11.25" PointY="2.625" Height="1.5788378906250031" />
-        <EntityTypeShape EntityType="ZergRushModel.Role_Type" Width="1.5" PointX="9.125" PointY="0.5" Height="1.5788378906250031" />
-        <EntityTypeShape EntityType="ZergRushModel.Semester" Width="1.5" PointX="2.75" PointY="6.875" Height="2.5263069661458335" />
-        <EntityTypeShape EntityType="ZergRushModel.Take" Width="1.5" PointX="6.875" PointY="4" Height="2.3368131510416656" />
-        <EntityTypeShape EntityType="ZergRushModel.User" Width="1.5" PointX="6.75" PointY="0.5" Height="2.905294596354167" />
-        <EntityTypeShape EntityType="ZergRushModel.Instructor" Width="1.5" PointX="9.125" PointY="4.375" Height="1.3893440755208246" />
-        <EntityTypeShape EntityType="ZergRushModel.Student" Width="1.5" PointX="9.125" PointY="2.625" Height="1.3893440755208246" />
+      <Diagram Name="CoursesDB" ZoomLevel="74">
+        <EntityTypeShape EntityType="ZergRushModel.Class" Width="1.5" PointX="5.625" PointY="3.75" Height="4.480205078125" />
+        <EntityTypeShape EntityType="ZergRushModel.Course" Width="1.5" PointX="0.75" PointY="5.375" Height="3.1340950520833326" />
+        <EntityTypeShape EntityType="ZergRushModel.Department" Width="1.5" PointX="0.75" PointY="3.125" Height="1.7879850260416665" />
+        <EntityTypeShape EntityType="ZergRushModel.GEP" Width="1.5" PointX="10.25" PointY="6.375" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="ZergRushModel.GFR" Width="1.5" PointX="10.25" PointY="4.5" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="ZergRushModel.Role_Type" Width="1.5" PointX="0.75" PointY="1.125" Height="1.59568359375" />
+        <EntityTypeShape EntityType="ZergRushModel.Semester" Width="1.5" PointX="7.875" PointY="2.75" Height="2.5571907552083317" />
+        <EntityTypeShape EntityType="ZergRushModel.Take" Width="1.5" PointX="3.125" PointY="5.125" Height="2.3648893229166656" />
+        <EntityTypeShape EntityType="ZergRushModel.User" Width="1.5" PointX="3.125" PointY="1.125" Height="2.941793619791667" />
+        <EntityTypeShape EntityType="ZergRushModel.Instructor" Width="1.5" PointX="10.25" PointY="2.75" Height="1.4033821614583326" />
+        <EntityTypeShape EntityType="ZergRushModel.Student" Width="1.5" PointX="10.25" PointY="1.125" Height="1.4033821614583326" />
         <AssociationConnector Association="ZergRushModel.FK_Class_Course" >
-          <ConnectorPoint PointX="2.5" PointY="4.3658756510416667" />
-          <ConnectorPoint PointX="3.5" PointY="4.3658756510416667" />
+          <ConnectorPoint PointX="2.25" PointY="7.8912972005208326" />
+          <ConnectorPoint PointX="5.625" PointY="7.8912972005208326" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_Class_User" >
-          <ConnectorPoint PointX="6.75" PointY="2.4526472981770837" />
-          <ConnectorPoint PointX="5" PointY="2.4526472981770837" />
+          <ConnectorPoint PointX="4.625" PointY="3.9083968098958337" />
+          <ConnectorPoint PointX="5.625" PointY="3.9083968098958337" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_Course_Department" >
-          <ConnectorPoint PointX="1.75" PointY="2.2683317057291661" />
-          <ConnectorPoint PointX="1.75" PointY="3" />
+          <ConnectorPoint PointX="1.5" PointY="4.9129850260416665" />
+          <ConnectorPoint PointX="1.5" PointY="5.375" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.Role" >
-          <ConnectorPoint PointX="9.125" PointY="1.2894189453125016" />
-          <ConnectorPoint PointX="8.25" PointY="1.2894189453125016" />
+          <ConnectorPoint PointX="2.25" PointY="1.922841796875" />
+          <ConnectorPoint PointX="3.125" PointY="1.922841796875" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_Class_Semester" >
-          <ConnectorPoint PointX="3.875" PointY="6.875" />
-          <ConnectorPoint PointX="3.875" PointY="5.7317513020833326" />
+          <ConnectorPoint PointX="7.875" PointY="4.5285953776041659" />
+          <ConnectorPoint PointX="7.125" PointY="4.5285953776041659" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_Takes_Class" >
-          <ConnectorPoint PointX="5" PointY="4.8658756510416667" />
-          <ConnectorPoint PointX="6.875" PointY="4.8658756510416667" />
+          <ConnectorPoint PointX="5.625" PointY="6.3074446614583328" />
+          <ConnectorPoint PointX="4.625" PointY="6.3074446614583328" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_Takes_User" >
-          <ConnectorPoint PointX="7.5625" PointY="3.405294596354167" />
-          <ConnectorPoint PointX="7.5625" PointY="4" />
+          <ConnectorPoint PointX="3.875" PointY="4.0667936197916674" />
+          <ConnectorPoint PointX="3.875" PointY="5.125" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_User_Department" >
-          <ConnectorPoint PointX="2.5" PointY="0.96875" />
-          <ConnectorPoint PointX="6.75" PointY="0.96875" />
+          <ConnectorPoint PointX="2.25" PointY="3.5958968098958337" />
+          <ConnectorPoint PointX="3.125" PointY="3.5958968098958337" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ZergRushModel.Timeslot" Width="1.5" PointX="4.625" PointY="6.875" Height="2.5263069661458388" />
+        <EntityTypeShape EntityType="ZergRushModel.Timeslot" Width="1.5" PointX="7.875" PointY="5.75" Height="2.5571907552083317" />
         <AssociationConnector Association="ZergRushModel.FK_Class_Timeslot" >
-          <ConnectorPoint PointX="4.8125" PointY="6.875" />
-          <ConnectorPoint PointX="4.8125" PointY="5.7317513020833326" />
+          <ConnectorPoint PointX="7.875" PointY="6.9901025390625" />
+          <ConnectorPoint PointX="7.125" PointY="6.9901025390625" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ZergRushModel.Current_Semester" Width="1.5" PointX="7.375" PointY="7.75" Height="1.1998502604166674" />
+        <EntityTypeShape EntityType="ZergRushModel.Current_Semester" Width="1.5" PointX="7.875" PointY="1.125" Height="1.2110807291666657" />
+        <EntityTypeShape EntityType="ZergRushModel.Cart" Width="1.5" PointX="5.625" PointY="1.125" Height="1.9802864583333388" />
+        <AssociationConnector Association="ZergRushModel.FK_Cart_Class" >
+          <ConnectorPoint PointX="6.375" PointY="3.75" />
+          <ConnectorPoint PointX="6.375" PointY="3.1052864583333388" />
+        </AssociationConnector>
       </Diagram>
     </Diagrams>
   </Designer>

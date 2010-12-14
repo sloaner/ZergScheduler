@@ -11,12 +11,12 @@ namespace ZergScheduler.Controllers
 	[Authorize(Roles="Administrator")]
 	public class CourseManagerController : Controller
 	{
-		ZergRushEntities courseDB = new ZergRushEntities();
+		ZergRushEntities db = new ZergRushEntities();
 
 		// GET: /CourseManager/
 		public ActionResult Index()
 		{
-			var courses = courseDB.Courses.Include("Department").ToList();
+			var courses = db.Courses.Include("Department").ToList();
 
 			return View(courses);
 		}
@@ -33,9 +33,9 @@ namespace ZergScheduler.Controllers
 			var viewModel = new CourseManagerViewModel
 			{
 				Course = new Course(),
-				Departments = courseDB.Departments.ToList(),
-				GFRs = courseDB.GFRs.ToList(),
-				GEPs = courseDB.GEPs.ToList()
+				Departments = db.Departments.ToList(),
+				GFRs = db.GFRs.ToList(),
+				GEPs = db.GEPs.ToList()
 			};
 
 			return View(viewModel);
@@ -50,8 +50,8 @@ namespace ZergScheduler.Controllers
 				course.course_id = course.dept_id + course.course_no;
 				course.gfr = (collection["Course.gfr"] ?? "0").Split(',').Sum(x => Int32.Parse(x));
 				course.gep = (collection["Course.gep"] ?? "0").Split(',').Sum(x => Int32.Parse(x));
-				courseDB.AddToCourses(course);
-				courseDB.SaveChanges();
+				db.AddToCourses(course);
+				db.SaveChanges();
 
 				return RedirectToAction("Index");
 			}
@@ -60,9 +60,9 @@ namespace ZergScheduler.Controllers
 			var viewModel = new CourseManagerViewModel
 			{
 				Course = course,
-				Departments = courseDB.Departments.ToList(),
-				GFRs = courseDB.GFRs.ToList(),
-				GEPs = courseDB.GEPs.ToList()
+				Departments = db.Departments.ToList(),
+				GFRs = db.GFRs.ToList(),
+				GEPs = db.GEPs.ToList()
 			};
 
 			return View(viewModel);
@@ -73,10 +73,10 @@ namespace ZergScheduler.Controllers
 		{
 			var viewModel = new CourseManagerViewModel
 			{
-				Course = courseDB.Courses.Single(c => c.course_id == id),
-				Departments = courseDB.Departments.ToList(),
-				GFRs = courseDB.GFRs.ToList(),
-				GEPs = courseDB.GEPs.ToList()
+				Course = db.Courses.Single(c => c.course_id == id),
+				Departments = db.Departments.ToList(),
+				GFRs = db.GFRs.ToList(),
+				GEPs = db.GEPs.ToList()
 			};
 
 			return View(viewModel);
@@ -86,14 +86,14 @@ namespace ZergScheduler.Controllers
 		[HttpPost]
 		public ActionResult Edit(string id, FormCollection collection)
 		{
-			var course = courseDB.Courses.Single(c => c.course_id == id);
+			var course = db.Courses.Single(c => c.course_id == id);
 			try
 			{
 				collection["Course.gfr"] = (collection["Course.gfr"] ?? "0").Split(',').Sum(x => Int32.Parse(x)) + "";
 				collection["Course.gep"] = (collection["Course.gep"] ?? "0").Split(',').Sum(x => Int32.Parse(x)) + "";
 				//collection["Course.course_id"] = collection["Course.dept_id"] + collection["Course.course_no"];
 				UpdateModel(course, "Course", collection.ToValueProvider());
-				courseDB.SaveChanges();
+				db.SaveChanges();
 
 				return RedirectToAction("Index");
 			}
@@ -101,10 +101,10 @@ namespace ZergScheduler.Controllers
 			{
 				var viewModel = new CourseManagerViewModel
 				{
-					Course = courseDB.Courses.Single(c => c.course_id == id),
-					Departments = courseDB.Departments.ToList(),
-					GFRs = courseDB.GFRs.ToList(),
-					GEPs = courseDB.GEPs.ToList()
+					Course = db.Courses.Single(c => c.course_id == id),
+					Departments = db.Departments.ToList(),
+					GFRs = db.GFRs.ToList(),
+					GEPs = db.GEPs.ToList()
 				};
 
 				return View(viewModel);
@@ -114,7 +114,7 @@ namespace ZergScheduler.Controllers
 		// GET: /CourseManager/Delete/5
 		public ActionResult Delete(string id)
 		{
-			var course = courseDB.Courses.Single(c => c.course_id == id);
+			var course = db.Courses.Single(c => c.course_id == id);
 			return View(course);
 		}
 
@@ -122,10 +122,10 @@ namespace ZergScheduler.Controllers
 		[HttpPost]
 		public ActionResult Delete(string id, string confirmButton)
 		{
-			var course = courseDB.Courses.Single(c => c.course_id == id);
+			var course = db.Courses.Single(c => c.course_id == id);
 
-			courseDB.DeleteObject(course);
-			courseDB.SaveChanges();
+			db.DeleteObject(course);
+			db.SaveChanges();
 
 			return View("Deleted");
 		}

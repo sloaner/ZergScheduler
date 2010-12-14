@@ -151,5 +151,15 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="RegisterForClass" FunctionName="ZergRushModel.Store.sp_RegisterForClass" />
+    <EntitySetMapping Name="Carts">
+      <EntityTypeMapping TypeName="ZergRushModel.Cart">
+        <MappingFragment StoreEntitySet="Cart">
+          <ScalarProperty Name="semester_id" ColumnName="semester_id" />
+          <ScalarProperty Name="class_id" ColumnName="class_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="record_id" ColumnName="record_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

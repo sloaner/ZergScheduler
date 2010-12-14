@@ -27,6 +27,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Takes_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.User), "Take", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Take), true)]
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_User_Department", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ZergScheduler.Models.Department), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.User), true)]
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Class_Timeslot", "Timeslot", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ZergScheduler.Models.Timeslot), "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Class), true)]
+[assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Cart_Class", "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.Class), "Cart", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Cart), true)]
 
 #endregion
 
@@ -285,6 +286,22 @@ namespace ZergScheduler.Models
             }
         }
         private ObjectSet<Current_Semester> _Current_Semester;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Cart> Carts
+        {
+            get
+            {
+                if ((_Carts == null))
+                {
+                    _Carts = base.CreateObjectSet<Cart>("Carts");
+                }
+                return _Carts;
+            }
+        }
+        private ObjectSet<Cart> _Carts;
 
         #endregion
         #region AddTo Methods
@@ -391,6 +408,14 @@ namespace ZergScheduler.Models
         public void AddToCurrent_Semester(Current_Semester current_Semester)
         {
             base.AddObject("Current_Semester", current_Semester);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Carts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCarts(Cart cart)
+        {
+            base.AddObject("Carts", cart);
         }
 
         #endregion
@@ -515,6 +540,180 @@ namespace ZergScheduler.Models
     #endregion
     
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ZergRushModel", Name="Cart")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Cart : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Cart object.
+        /// </summary>
+        /// <param name="record_id">Initial value of the record_id property.</param>
+        /// <param name="user_id">Initial value of the user_id property.</param>
+        /// <param name="class_id">Initial value of the class_id property.</param>
+        /// <param name="semester_id">Initial value of the semester_id property.</param>
+        public static Cart CreateCart(global::System.Int32 record_id, global::System.String user_id, global::System.Int32 class_id, global::System.String semester_id)
+        {
+            Cart cart = new Cart();
+            cart.record_id = record_id;
+            cart.user_id = user_id;
+            cart.class_id = class_id;
+            cart.semester_id = semester_id;
+            return cart;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 record_id
+        {
+            get
+            {
+                return _record_id;
+            }
+            set
+            {
+                if (_record_id != value)
+                {
+                    Onrecord_idChanging(value);
+                    ReportPropertyChanging("record_id");
+                    _record_id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("record_id");
+                    Onrecord_idChanged();
+                }
+            }
+        }
+        private global::System.Int32 _record_id;
+        partial void Onrecord_idChanging(global::System.Int32 value);
+        partial void Onrecord_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String user_id
+        {
+            get
+            {
+                return _user_id;
+            }
+            set
+            {
+                Onuser_idChanging(value);
+                ReportPropertyChanging("user_id");
+                _user_id = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("user_id");
+                Onuser_idChanged();
+            }
+        }
+        private global::System.String _user_id;
+        partial void Onuser_idChanging(global::System.String value);
+        partial void Onuser_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 class_id
+        {
+            get
+            {
+                return _class_id;
+            }
+            set
+            {
+                Onclass_idChanging(value);
+                ReportPropertyChanging("class_id");
+                _class_id = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("class_id");
+                Onclass_idChanged();
+            }
+        }
+        private global::System.Int32 _class_id;
+        partial void Onclass_idChanging(global::System.Int32 value);
+        partial void Onclass_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String semester_id
+        {
+            get
+            {
+                return _semester_id;
+            }
+            set
+            {
+                Onsemester_idChanging(value);
+                ReportPropertyChanging("semester_id");
+                _semester_id = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("semester_id");
+                Onsemester_idChanged();
+            }
+        }
+        private global::System.String _semester_id;
+        partial void Onsemester_idChanging(global::System.String value);
+        partial void Onsemester_idChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Cart_Class", "Class")]
+        public Class Class
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("ZergRushModel.FK_Cart_Class", "Class").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("ZergRushModel.FK_Cart_Class", "Class").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Class> ClassReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("ZergRushModel.FK_Cart_Class", "Class");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Class>("ZergRushModel.FK_Cart_Class", "Class", value);
+                }
+            }
+        }
+
+        #endregion
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -1022,6 +1221,28 @@ namespace ZergScheduler.Models
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Timeslot>("ZergRushModel.FK_Class_Timeslot", "Timeslot", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "FK_Cart_Class", "Cart")]
+        public EntityCollection<Cart> Carts
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Cart>("ZergRushModel.FK_Cart_Class", "Cart");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Cart>("ZergRushModel.FK_Cart_Class", "Cart", value);
                 }
             }
         }

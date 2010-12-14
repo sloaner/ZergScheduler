@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ZergRushModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="ZergRushModelStoreContainer">
+    <EntitySet Name="Cart" EntityType="ZergRushModel.Store.Cart" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Class" EntityType="ZergRushModel.Store.Class" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Course" EntityType="ZergRushModel.Store.Course" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Current_Semester" EntityType="ZergRushModel.Store.Current_Semester" store:Type="Tables" store:Schema="dbo" store:Name="Current_Semester">
@@ -29,6 +30,10 @@
       [Student].[major] AS [major]
       FROM [dbo].[Student] AS [Student]</DefiningQuery>
     </EntitySet>
+    <AssociationSet Name="FK_Cart_Class" Association="ZergRushModel.Store.FK_Cart_Class">
+      <End Role="Class" EntitySet="Class" />
+      <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
     <AssociationSet Name="FK_Class_Course" Association="ZergRushModel.Store.FK_Class_Course">
       <End Role="Course" EntitySet="Course" />
       <End Role="Class" EntitySet="Class" />
@@ -70,6 +75,15 @@
       <End Role="User" EntitySet="User" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="record_id" />
+    </Key>
+    <Property Name="record_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="user_id" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="class_id" Type="int" Nullable="false" />
+    <Property Name="semester_id" Type="nchar" Nullable="false" MaxLength="4" />
+  </EntityType>
   <EntityType Name="Class">
     <Key>
       <PropertyRef Name="class_id" />
@@ -216,6 +230,20 @@
     <Property Name="student_id" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="major" Type="nvarchar" MaxLength="10" />
   </EntityType>
+  <Association Name="FK_Cart_Class">
+    <End Role="Class" Type="ZergRushModel.Store.Class" Multiplicity="1" />
+    <End Role="Cart" Type="ZergRushModel.Store.Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="class_id" />
+        <PropertyRef Name="semster_id" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="class_id" />
+        <PropertyRef Name="semester_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Class_Course">
     <End Role="Course" Type="ZergRushModel.Store.Course" Multiplicity="1" />
     <End Role="Class" Type="ZergRushModel.Store.Class" Multiplicity="*" />

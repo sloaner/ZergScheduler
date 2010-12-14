@@ -64,6 +64,11 @@
       <Parameter Name="semester_id" Mode="In" Type="String" />
       <Parameter Name="waitlist_status" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <EntitySet Name="Carts" EntityType="ZergRushModel.Cart" />
+    <AssociationSet Name="FK_Cart_Class" Association="ZergRushModel.FK_Cart_Class">
+      <End Role="Class" EntitySet="Classes" />
+      <End Role="Cart" EntitySet="Carts" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Class">
     <Key>
@@ -87,6 +92,7 @@
     <NavigationProperty Name="Semester" Relationship="ZergRushModel.FK_Class_Semester" FromRole="Class" ToRole="Semester" />
     <NavigationProperty Name="Takes" Relationship="ZergRushModel.FK_Takes_Class" FromRole="Class" ToRole="Take" />
     <NavigationProperty Name="Timeslot" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Class" ToRole="Timeslot" />
+    <NavigationProperty Name="Carts" Relationship="ZergRushModel.FK_Cart_Class" FromRole="Class" ToRole="Cart" />
   </EntityType>
   <EntityType Name="Course">
     <Key>
@@ -314,4 +320,28 @@
     </Key>
     <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
   </EntityType>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="record_id" />
+    </Key>
+    <Property Type="Int32" Name="record_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="user_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="class_id" Nullable="false" />
+    <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Class" Relationship="ZergRushModel.FK_Cart_Class" FromRole="Cart" ToRole="Class" />
+  </EntityType>
+  <Association Name="FK_Cart_Class">
+    <End Type="ZergRushModel.Class" Role="Class" Multiplicity="1" />
+    <End Type="ZergRushModel.Cart" Role="Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="class_id" />
+        <PropertyRef Name="semster_id" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="class_id" />
+        <PropertyRef Name="semester_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

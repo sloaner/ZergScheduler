@@ -7,8 +7,7 @@
     <h2>
         Edit -
         <%: Model.Course.course_id.ToUpper() %></h2>
-    <% using (Html.BeginForm())
-       {%>
+    <% using (Html.BeginForm()) {%>
     <%: Html.ValidationSummary(true) %>
     <fieldset>
         <legend>Edit Course</legend>

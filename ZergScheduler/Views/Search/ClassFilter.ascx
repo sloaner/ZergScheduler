@@ -1,4 +1,14 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<ZergScheduler.Models.Course>>" %>
+<script type="text/javascript">
+    function handleUpdate(context) {
+        var json = context.get_data();
+        var data = Sys.Serialization.JavaScriptSerializer.deserialize(json);
+
+        $('#add-' + data.AlterId).fadeOut('slow');
+        $('#cart-status').text('Cart (' + data.CartCount + ')');
+        $('#update-message').text(data.Message);
+    }
+    </script>
 <%if (Model.Count() == 0) { %>
 <h3>
     Nothing found.
@@ -8,8 +18,7 @@
 <div id="courseResult">
     <fieldset>
         <legend>
-            <%: item.course_id + " " + item.title %>&nbsp;(<%: item.credits %>&nbsp;credits)
-        </legend>
+            <%: item.course_id + " " + item.title %>&nbsp;(<%: item.credits %>&nbsp;credits) </legend>
         <div <%=(Model.Count() > 1) ? "style=\"display: none;\"": ""%>>
             <p>
                 <%: item.description %>
@@ -25,9 +34,8 @@
                        if (!classResult.parent_class_id.HasValue) {%>
                 <tbody>
                     <tr class="classParentRow">
-                        <td class="addClass">
-                            <%: Ajax.ActionLink("Register", "Register", "ScheduleManager", new { reg_class = classResult }, new AjaxOptions() { HttpMethod = "Post" }) %>
-                            <!--//.ToHtmlString().Replace("[Replaceme]",@"<img alt=""add"" src=""../../Content/Images/add.png"" />"-->
+                        <td id="add-<%: classResult.class_id %>" class="addClass">
+                            <%= Ajax.ActionLink("[Replaceme]", "AddToCart", "ShoppingCart", new { class_id = classResult.class_id, semester_id = classResult.semster_id }, new AjaxOptions() { HttpMethod = "POST" }).ToHtmlString().Replace("[Replaceme]", @"<img alt=""add"" src="""+ Url.Content("~/Content/Images/add.png") + "\" />")%>
                         </td>
                         <td>
                             <%: classResult.sect_id %>

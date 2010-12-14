@@ -10,7 +10,7 @@ namespace ZergScheduler.Controllers
 {
 	public class SearchController : Controller
 	{
-		ZergRushEntities courseDB = new ZergRushEntities();
+		ZergRushEntities db = new ZergRushEntities();
 
 		// GET: /Search/
 		public ActionResult Index()
@@ -19,11 +19,11 @@ namespace ZergScheduler.Controllers
 			{
 				Class = new Class(),
 				Course = new Course(),
-				Departments = courseDB.Departments.ToList(),
-				GFRs = courseDB.GFRs.ToList(),
-				GEPs = courseDB.GEPs.ToList(),
-				Semesters = courseDB.Semesters.ToList(),
-				CurrentSemester = courseDB.Current_Semester.First().semester_id
+				Departments = db.Departments.ToList(),
+				GFRs = db.GFRs.ToList(),
+				GEPs = db.GEPs.ToList(),
+				Semesters = db.Semesters.ToList(),
+				CurrentSemester = db.Current_Semester.First().semester_id
 			};
 			return View(viewModel);
 		}
@@ -40,7 +40,7 @@ namespace ZergScheduler.Controllers
 			var depts = (collection["dept_id"] ?? "").Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 			var course_no = collection["Course.course_no"] ?? "";
 
-			var credits = 0;// int.Parse(collection["Course.credits"] ?? "0");
+            var credits = 0;// int.Parse(collection["Course.credits"] ?? "0");
 			var gfrs = (collection["gfrs"] ?? "0").Split(',').Sum(x => Int32.Parse(x));
 			var geps = (collection["geps"] ?? "0").Split(',').Sum(x => Int32.Parse(x));
 
@@ -52,7 +52,7 @@ namespace ZergScheduler.Controllers
 			var show_open = collection["show_open"].Contains("true");
 			var show_offered = collection["show_offered"].Contains("true");
 
-			var courses = from course in courseDB.Courses
+			var courses = from course in db.Courses
 						  where (depts.Count() < 1 || depts.Contains(course.dept_id))
 						  && (course_no == "" || course.course_no == course_no)
 						  && (!show_offered || course.Classes.Any(c => c.semster_id == semester_id))

@@ -10,15 +10,15 @@ namespace ZergScheduler.Controllers
 {
 	public class CourseController : Controller
 	{
-		ZergRushEntities courseDB = new ZergRushEntities();
+		ZergRushEntities db = new ZergRushEntities();
 
 		// GET: /Course/
 		public ActionResult Index()
 		{
 			var viewModel = new CourseIndexViewModel
 			{
-				NumberOfDepartments = courseDB.Departments.Count(),
-				Departments = courseDB.Departments.OrderBy(d => d.dept_title).ToList()
+				NumberOfDepartments = db.Departments.Count(),
+				Departments = db.Departments.OrderBy(d => d.dept_title).ToList()
 			};
 
 			return View(viewModel);
@@ -27,7 +27,7 @@ namespace ZergScheduler.Controllers
 		// GET: /Course/Browse?department=CMSC
 		public ActionResult Browse(string dept)
 		{
-			var departmentModel = courseDB.Departments.Include("Courses").Single(g => g.dept_id == dept);
+			var departmentModel = db.Departments.Include("Courses").Single(g => g.dept_id == dept);
 
 			var viewModel = new CourseBrowseViewModel
 			{
@@ -41,7 +41,7 @@ namespace ZergScheduler.Controllers
 		// GET: /Course/Details/CMSC345
 		public ActionResult Details(string id)
 		{
-			var course = courseDB.Courses.Single(a => a.course_id == id);
+			var course = db.Courses.Single(a => a.course_id == id);
 
 			return View(course);
 		}
@@ -53,10 +53,10 @@ namespace ZergScheduler.Controllers
 			{
 				Class = new Class(),
 				Course = new Course(),
-				Departments = courseDB.Departments.ToList(),
-				GFRs = courseDB.GFRs.ToList(),
-				GEPs = courseDB.GEPs.ToList(),
-				Semesters = courseDB.Semesters.ToList()
+				Departments = db.Departments.ToList(),
+				GFRs = db.GFRs.ToList(),
+				GEPs = db.GEPs.ToList(),
+				Semesters = db.Semesters.ToList()
 			};
 			return View(viewModel);
 		}
