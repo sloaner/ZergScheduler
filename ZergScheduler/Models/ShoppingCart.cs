@@ -54,6 +54,7 @@ namespace ZergScheduler.Models
 
 			db.SaveChanges();
 		}
+
 		public List<Cart> GetCartItems()
 		{
 			var cartItems = (from cart in db.Carts
@@ -81,7 +82,9 @@ namespace ZergScheduler.Models
 		{
 			var shopping_cart = db.Carts.Where(c => c.user_id == shopping_cart_id);
 			foreach (Cart item in shopping_cart) {
-				item.user_id = user_id;
+				if (!db.Carts.Any(c => c.user_id == user_id && c.class_id == item.class_id && c.semester_id == item.semester_id)) {
+					item.user_id = user_id;
+				}
 			}
 			db.SaveChanges();
 		}

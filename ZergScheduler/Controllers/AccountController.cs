@@ -64,7 +64,7 @@ namespace ZergScheduler.Controllers
 		public ActionResult LogOff()
 		{
 			FormsService.SignOut();
-
+			Session[ShoppingCart.cart_session_key] = null;
 			return RedirectToAction("Index", "Home");
 		}
 

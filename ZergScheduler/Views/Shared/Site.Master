@@ -23,13 +23,21 @@
                     <%: Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav menu-label" })%>
                 </li>
                 <li class="nav">
+                    <%: Html.ActionLink("Search", "Index", "Search", null, new { @class = "nav menu-label" })%>
+                </li>
+                <li class="nav">
                     <%: Html.ActionLink("Browse", "Index", "Course", null, new { @class = "nav menu-label" })%>
+                </li>
+                <li class="nav">
+                    <% Html.RenderAction("CartSummary", "ShoppingCart"); %>
                 </li>
                 <%
                     if (Request.IsAuthenticated) {
                 %>
                 <li class="nav name">
-                    <%: Page.User.Identity.Name %></li>
+                    <label class="nav menu-label">
+                        <%: Page.User.Identity.Name %></label>
+                </li>
                 <li class="logout menu last" id="navlist-log">
                     <%: Html.ActionLink("Log Off", "LogOff", "Account", null, new { @class = "nav menu-label" })%>
                 </li>

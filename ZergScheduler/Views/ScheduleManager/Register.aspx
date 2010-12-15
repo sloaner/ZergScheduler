@@ -25,6 +25,7 @@
     <table>
         <tr>
             <th>
+                Register for class?
             </th>
             <th>
                 Course Number
@@ -39,7 +40,7 @@
         <% foreach (var item in Model) { %>
         <tr id="row-<%: item.record_id %>">
             <td>
-                <%: Html.CheckBox("check-" + item.record_id, true, new { onclick = "javascript:toggleCheck(" + item.record_id + ");", onload = "javascript:toggleCheck(" + item.record_id + ");" })%>
+                <%: Html.CheckBox("check-" + item.record_id, true, new { onclick = "javascript:toggleCheck(" + item.record_id + ");" }) %>
             </td>
             <td>
                 <%: item.Class.course_id %>
@@ -48,7 +49,7 @@
                 <%: item.semester_id %>
             </td>
             <td>
-                <%: item.Class.User.first_name + " " + item.Class.User.last_name%>
+                <%: item.Class.User.first_name + " " + item.Class.User.last_name %>
             </td>
         </tr>
         <% } %>

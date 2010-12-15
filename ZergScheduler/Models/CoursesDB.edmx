@@ -919,7 +919,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="CoursesDB" ZoomLevel="74">
+      <Diagram Name="CoursesDB" ZoomLevel="111">
         <EntityTypeShape EntityType="ZergRushModel.Class" Width="1.5" PointX="5.625" PointY="3.75" Height="4.480205078125" />
         <EntityTypeShape EntityType="ZergRushModel.Course" Width="1.5" PointX="0.75" PointY="5.375" Height="3.1340950520833326" />
         <EntityTypeShape EntityType="ZergRushModel.Department" Width="1.5" PointX="0.75" PointY="3.125" Height="1.7879850260416665" />

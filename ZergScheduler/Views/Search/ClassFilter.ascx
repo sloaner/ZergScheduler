@@ -1,14 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<ZergScheduler.Models.Course>>" %>
-<script type="text/javascript">
-    function handleUpdate(context) {
-        var json = context.get_data();
-        var data = Sys.Serialization.JavaScriptSerializer.deserialize(json);
-
-        $('#add-' + data.AlterId).fadeOut('slow');
-        $('#cart-status').text('Cart (' + data.CartCount + ')');
-        $('#update-message').text(data.Message);
-    }
-    </script>
 <%if (Model.Count() == 0) { %>
 <h3>
     Nothing found.
@@ -35,7 +25,8 @@
                 <tbody>
                     <tr class="classParentRow">
                         <td id="add-<%: classResult.class_id %>" class="addClass">
-                            <%= Ajax.ActionLink("[Replaceme]", "AddToCart", "ShoppingCart", new { class_id = classResult.class_id, semester_id = classResult.semster_id }, new AjaxOptions() { HttpMethod = "POST" }).ToHtmlString().Replace("[Replaceme]", @"<img alt=""add"" src="""+ Url.Content("~/Content/Images/add.png") + "\" />")%>
+                            <%= Ajax.ActionLink("[Replaceme]", "AddToCart", "ShoppingCart", new { class_id = classResult.class_id, semester_id = classResult.semster_id }, new AjaxOptions() { HttpMethod = "Post", OnSuccess = "handleUpdate" }).ToHtmlString().Replace("[Replaceme]", @"<img src=""" + Url.Content("~/Content/Images/add.png") + "\" />")%>
+                            <img style="display: none" src="<%: Url.Content("~/Content/Images/accept.png") %>" />
                         </td>
                         <td>
                             <%: classResult.sect_id %>

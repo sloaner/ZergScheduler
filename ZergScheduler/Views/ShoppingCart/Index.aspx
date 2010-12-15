@@ -11,10 +11,9 @@
         function handleUpdate(context) {
             var json = context.get_data();
             var data = Sys.Serialization.JavaScriptSerializer.deserialize(json);
-
-            $('#row-' + data.AlterId).fadeOut('slow');
+            
+            $('#row-' + data.AlterId).fadeOut('fast');
             $('#cart-status').text('Cart (' + data.CartCount + ')');
-            $('#update-message').text(data.Message);
         }
     </script>
     <h3>

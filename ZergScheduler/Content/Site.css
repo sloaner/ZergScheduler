@@ -210,14 +210,14 @@ div
 {
 	border: none;
 }
-
 #classResult .addClass
 {
 	width: auto;
 }
 
-#classResult .classParentRow
+#classResult .classParentRow .addClass a
 {
+   /* background: url(/content/Images/add.png) no-repeat;*/
 }
 
 #classResult .classChildRow

@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<ZergScheduler.ViewModels.SearchViewModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Index
+    Search
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <script type="text/javascript">
@@ -24,12 +24,21 @@
                 return false;
             });
         });
+        function handleUpdate(context) {
+            var json = context.get_data();
+            var data = Sys.Serialization.JavaScriptSerializer.deserialize(json);
+
+            $('#add-' + data.AlterId).children().toggle();
+            $('#cart-status').text('Cart (' + data.CartCount + ')');
+            $('#update-message').text(data.Message);
+        };
     </script>
     <div>
         <div id="searchPanel">
             <% using (Ajax.BeginForm("ClassFilter", "Search", new AjaxOptions { UpdateTargetId = "searchDetails", LoadingElementId = "loading", OnBegin = "hideResults", OnComplete = "showResults" })) { %>
             <p class="inline_form">
-                <label>Semester:</label>
+                <label>
+                    Semester:</label>
                 <%: Html.DropDownList("semester_id", new SelectList(Model.Semesters.OrderByDescending(s => s.start_date), "semester_id", "semester_id", Model.CurrentSemester))%>
             </p>
             <div>
@@ -40,14 +49,16 @@
             </div>
             <br />
             <p class="inline_form">
-                <label>Course&nbsp;Number:</label>
+                <label>
+                    Course&nbsp;Number:</label>
                 <%: Html.TextBoxFor(model => model.Course.course_no)%>
             </p>
             <h4 id="extraOptionsHead">
                 Extra Options</h4>
             <div id="extraOptions">
                 <p class="inline_form">
-                    <label>Number&nbsp;of&nbsp;Credits:</label>
+                    <label>
+                        Number&nbsp;of&nbsp;Credits:</label>
                     <%: Html.TextBoxFor(x => x.Course.credits) %>
                 </p>
                 <div style="float: right;">
@@ -64,18 +75,21 @@
                 </div>
                 <br />
                 <p class="inline_form">
-                    <label>Start&nbsp;Time:</label>
+                    <label>
+                        Start&nbsp;Time:</label>
                     <%: Html.DropDownList("start_time_comp", new SelectList(new[] { "<", ">", "=" }), new { @class = "comparer" })%>
                     <%: Html.TextBoxFor(m => m.Class.Timeslot.start_time, new { @class = "time" })%>
                 </p>
                 <p class="inline_form">
-                    <label>End&nbsp;Time:</label>
+                    <label>
+                        End&nbsp;Time:</label>
                     <%: Html.DropDownList("end_time_comp", new SelectList(new[] { "<", ">", "=" }), new { @class = "comparer" })%>
                     <%: Html.TextBoxFor(m => m.Class.Timeslot.end_time, new { @class = "time" })%>
                 </p>
                 <p>
                     <%: Html.CheckBox("show_open", false) %>
-                    <label for="show_open">Show only open classes</label>
+                    <label for="show_open">
+                        Show only open classes</label>
                 </p>
                 <p>
                     <%: Html.CheckBox("show_offered", true) %>
