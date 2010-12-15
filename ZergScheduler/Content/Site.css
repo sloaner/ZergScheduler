@@ -35,7 +35,6 @@ div
 #header h1
 {
     font-size: 18px;
-    background: url(/content/Images/logo.png) no-repeat;
     padding: 45px 0px 5px 0px;
 }
 
@@ -180,7 +179,7 @@ div
 
 #extraOptionsHead
 {
-    background: url(/content/Images/arrow-left.png) no-repeat;
+    background: url(/ZergScheduler/Content/Images/arrow-left.png) no-repeat;
     background-position: 98% center;
     background-color: #EEE;
     -moz-border-radius: 4px;
@@ -191,7 +190,7 @@ div
 
 #extraOptionsHead.expanded
 {
-    background-image: url(/content/Images/arrow-down.png);
+    background-image: url(/ZergScheduler/Content/Images/arrow-down.png);
 }
 
 #searchDetails
@@ -221,7 +220,7 @@ div
 
 #classResult .classParentRow .addClass a
 {
-    /* background: url(/content/Images/add.png) no-repeat;*/
+    /* background: url(/ZergScheduler/Content/Images/add.png) no-repeat;*/
 }
 
 #classResult img.class_status
