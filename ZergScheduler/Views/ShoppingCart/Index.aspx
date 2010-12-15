@@ -19,9 +19,6 @@
     <h3>
         <em>Review</em> your cart:
     </h3>
-    <p class="button">
-        <%: Html.ActionLink("Register >>", "Register", "ScheduleManager") %>
-    </p>
     <div id="update-message">
     </div>
     <table>
@@ -44,7 +41,7 @@
                 <%= Ajax.ActionLink("[Replaceme]", "RemoveFromCart", new { id = item.record_id }, new AjaxOptions() { HttpMethod = "Post", OnSuccess="handleUpdate" }).ToHtmlString().Replace("[Replaceme]", @"<img alt=""Remove"" src=""" + Url.Content("~/Content/Images/delete.png") + "\" />")%>
             </td>
             <td>
-                <%: item.Class.course_id %>
+                <%: Html.ActionLink(item.Class.course_id, "SingleClassFilter", "Search", new { class_id = item.class_id, semester_id = item.semester_id }, null) %>
             </td>
             <td>
                 <%: item.semester_id %>
@@ -55,4 +52,7 @@
         </tr>
         <% } %>
     </table>
+    <p class="button">
+        <%: Html.ActionLink("Register >>", "Register", "ScheduleManager") %>
+    </p>
 </asp:Content>

@@ -51,15 +51,26 @@
             <p class="inline_form">
                 <label>
                     Course&nbsp;Number:</label>
-                <%: Html.TextBoxFor(model => model.Course.course_no)%>
+                <%: Html.DropDownList("course_no_comp", new SelectList(new[] { "=", "<", ">" }), new { @class = "comparer" })%>
+                <%: Html.TextBoxFor(model => model.Course.course_no, new { @class = "smallbox" })%>
             </p>
             <h4 id="extraOptionsHead">
                 Extra Options</h4>
             <div id="extraOptions">
                 <p class="inline_form">
                     <label>
+                        Class&nbsp;ID:</label>
+                    <%: Html.TextBoxFor(model => model.Class.class_id, new { @class = "smallbox" })%>
+                </p>
+                <p class="inline_form">
+                    <label>
                         Number&nbsp;of&nbsp;Credits:</label>
-                    <%: Html.TextBoxFor(x => x.Course.credits) %>
+                    <%: Html.TextBoxFor(x => x.Course.credits, new { @class = "smallbox" })%>
+                </p>
+                <p class="inline_form">
+                    <label>
+                        Keyword:</label>
+                    <%: Html.TextBox("keyword")%>
                 </p>
                 <div style="float: right;">
                     GFRs:
@@ -77,14 +88,14 @@
                 <p class="inline_form">
                     <label>
                         Start&nbsp;Time:</label>
-                    <%: Html.DropDownList("start_time_comp", new SelectList(new[] { "<", ">", "=" }), new { @class = "comparer" })%>
-                    <%: Html.TextBoxFor(m => m.Class.Timeslot.start_time, new { @class = "time" })%>
+                    <%: Html.DropDownList("start_time_comp", new SelectList(new[] { "=", "<", ">" }), new { @class = "comparer" })%>
+                    <%: Html.TextBoxFor(m => m.Class.Timeslot.start_time, new { @class = "smallbox" })%>
                 </p>
                 <p class="inline_form">
                     <label>
                         End&nbsp;Time:</label>
-                    <%: Html.DropDownList("end_time_comp", new SelectList(new[] { "<", ">", "=" }), new { @class = "comparer" })%>
-                    <%: Html.TextBoxFor(m => m.Class.Timeslot.end_time, new { @class = "time" })%>
+                    <%: Html.DropDownList("end_time_comp", new SelectList(new[] { "=", "<", ">" }), new { @class = "comparer" })%>
+                    <%: Html.TextBoxFor(m => m.Class.Timeslot.end_time, new { @class = "smallbox" })%>
                 </p>
                 <p>
                     <%: Html.CheckBox("show_open", false) %>

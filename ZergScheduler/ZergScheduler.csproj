@@ -110,13 +110,15 @@
     <Content Include="Content\Images\add.png" />
     <Content Include="Content\Images\arrow-left.png" />
     <Content Include="Content\Images\arrow-right.png" />
+    <Content Include="Content\Images\open.png" />
+    <Content Include="Content\Images\closed.png" />
+    <Content Include="Content\Images\error.png" />
     <Content Include="Content\Images\delete.png" />
+    <Content Include="Content\Images\warning.png" />
     <Content Include="Content\Images\expander-arrow-down.gif" />
-    <Content Include="Content\Images\home-showcase2.png" />
     <Content Include="Content\Images\loading.gif" />
-    <Content Include="Content\Images\logo2.png" />
     <Content Include="Content\Images\arrow-down.png" />
-    <Content Include="Content\Images\placeholder.gif" />
+    <Content Include="Content\Images\success.png" />
     <Content Include="Content\StyleSheet1.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -134,6 +136,7 @@
     <Content Include="Views\Course\Details.aspx" />
     <Content Include="Views\Course\Index.aspx" />
     <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\ScheduleManager\Complete.aspx" />
     <Content Include="Views\ScheduleManager\Register.aspx" />
     <Content Include="Views\Search\ClassFilter.ascx" />
     <Content Include="Views\Search\Index.aspx" />

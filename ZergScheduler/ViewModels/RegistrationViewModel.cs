@@ -8,7 +8,7 @@ namespace ZergScheduler.ViewModels
 {
 	public class RegistrationViewModel
 	{
-		public Cart cart_item { get; set; }
+		public string class_info { get; set; }
 		public string successful { get; set; }
 		public string message { get; set; }
 	}

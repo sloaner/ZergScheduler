@@ -29,18 +29,19 @@ namespace ZergScheduler.Helpers
 			return week;
 		}
 
-		public static string GetClassStatus(this HtmlHelper helper, int class_id, string semester_id, int class_capacity, int waitlist_capacity)
+		public static MvcHtmlString GetClassStatus(this HtmlHelper helper, int class_id, string semester_id, int class_capacity, int waitlist_capacity, string image_path)
 		{
 			ZergRushEntities courseDB = new ZergRushEntities();
+			string format = "<img src=\"{0}\" class=\"class_status\">";
 			int class_enrollment = courseDB.GetClassEnrollment(class_id, semester_id).FirstOrDefault() ?? 0;
 			if (class_enrollment < class_capacity)
-				return "Open (" + (class_capacity - class_enrollment) + " seats)";
+				return MvcHtmlString.Create(string.Format(format, image_path + "/open.png") + " (" + (class_capacity - class_enrollment) + " seats)");
 
 			int waitlist_enrollment = courseDB.GetClassWaitlist(class_id, semester_id).FirstOrDefault() ?? 0;
 			if (waitlist_enrollment < waitlist_capacity)
-				return "Waitlist (" + (waitlist_capacity - waitlist_enrollment) + " seats)";
+				return MvcHtmlString.Create(string.Format(format, image_path + "/warning.png"));
 
-			return "Closed";
+			return MvcHtmlString.Create(string.Format(format, image_path + "/closed.png"));
 		}
 
 		public static MvcHtmlString CheckBoxList(this HtmlHelper htmlHelper, string name, MultiSelectList listInfo)

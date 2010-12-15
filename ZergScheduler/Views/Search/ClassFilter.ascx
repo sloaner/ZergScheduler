@@ -13,7 +13,8 @@
             <p>
                 <%: item.description %>
             </p>
-            <% var classes = item.Classes.Where(c => c.semster_id == ViewData["semester"].ToString());
+            <% var classes = item.Classes.Where(c => c.semster_id == ViewData["semester"].ToString()
+                   && (bool.Parse(ViewData["filter_class_id"].ToString()) || c.class_id == int.Parse(ViewData["class_id"].ToString())));
                if (classes.Count() == 0) { %>
             <h3>
                 No classes offered this semester.
@@ -29,25 +30,25 @@
                             <img style="display: none" src="<%: Url.Content("~/Content/Images/accept.png") %>" />
                         </td>
                         <td>
-                            <%: classResult.sect_id %>
-                            (<%:classResult.class_id %>)
+                            <b><%: classResult.sect_id %>
+                            (<%:classResult.class_id %>)</b>
                         </td>
                         <td>
                         </td>
                         <td>
                             Status:
-                            <%: Html.GetClassStatus(classResult.class_id, classResult.semster_id, classResult.capacity, classResult.waitlist_capacity)%>
+                            <b><%: Html.GetClassStatus(classResult.class_id, classResult.semster_id, classResult.capacity, classResult.waitlist_capacity, Url.Content("~/Content/Images"))%></b>
                         </td>
                     </tr>
                     <tr class="classParentRow">
                         <td colspan="2">
-                            <%: classResult.User.first_name + " " + classResult.User.last_name%>
+                            <b><%: classResult.User.first_name + " " + classResult.User.last_name%></b>
                         </td>
                         <td>
-                            <%: (classResult.days == null||classResult.Timeslot == null) ? "TBA" : Html.IntToDay(classResult.days.Value) +" "+ classResult.Timeslot.start_time.ToShortTimeString() + " - " + classResult.Timeslot.end_time.ToShortTimeString()%>
+                            <b><%: (classResult.days == null||classResult.Timeslot == null) ? "TBA" : Html.IntToDay(classResult.days.Value) +" "+ classResult.Timeslot.start_time.ToShortTimeString() + " - " + classResult.Timeslot.end_time.ToShortTimeString()%></b>
                         </td>
                         <td>
-                            <%: classResult.room_id %>
+                            <b><%: classResult.room_id %></b>
                         </td>
                     </tr>
                     <tr class="classParentRow">
@@ -55,10 +56,10 @@
                         </td>
                         <td>
                             Class Capacity:
-                            <%: classResult.capacity %>
+                            <b><%: classResult.capacity %></b>
                         </td>
                         <td>
-                            Waitlist capacity:<%: classResult.waitlist_capacity %>
+                            Waitlist capacity: <b><%: classResult.waitlist_capacity %></b>
                         </td>
                     </tr>
                     <tr class="classParentRow">
@@ -66,10 +67,10 @@
                         </td>
                         <td>
                             Enrollment Total:
-                            <%: classResult.Takes.Count(t => t.waitlist_status == false) %>
+                            <b><%: classResult.Takes.Count(t => t.waitlist_status == false) %></b>
                         </td>
                         <td>
-                            Waitlist Total:<%: classResult.Takes.Count(t => t.waitlist_status == true)%>
+                            Waitlist Total: <b><%: classResult.Takes.Count(t => t.waitlist_status == true)%></b>
                         </td>
                     </tr>
                 </tbody>
@@ -86,7 +87,7 @@
                         </td>
                         <td>
                             Status:
-                            <%: Html.GetClassStatus(classResult.class_id, classResult.semster_id, classResult.capacity, classResult.waitlist_capacity)%>
+                            <%: Html.GetClassStatus(classResult.class_id, classResult.semster_id, classResult.capacity, classResult.waitlist_capacity, Url.Content("~/Content/Images"))%>
                         </td>
                     </tr>
                     <tr class="classChildRow">

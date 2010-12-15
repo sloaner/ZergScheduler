@@ -12,10 +12,10 @@
         <tr>
             <th></th>
             <th>
-                successful
+                Course
             </th>
             <th>
-                message
+                Message
             </th>
         </tr>
 
@@ -23,7 +23,10 @@
     
         <tr>
             <td>
-                <img src="<%: Url.Content("~/Content/Images/" item.successful + ".png") %>" />
+                <img src="<%: Url.Content("~/Content/Images/" + item.successful + ".png") %>" alt="<%: item.successful %>" />
+            </td>
+            <td>
+                <%: item.class_info %>
             </td>
             <td>
                 <%: item.message %>
@@ -33,10 +36,5 @@
     <% } %>
 
     </table>
-
-    <p>
-        <%: Html.ActionLink("Create New", "Create") %>
-    </p>
-
 </asp:Content>
 

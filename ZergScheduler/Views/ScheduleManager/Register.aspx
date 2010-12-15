@@ -7,11 +7,7 @@
     <script type="text/javascript">
         function toggleCheck(id) {
             var row = $('#row-' + id);
-   
-            /*if (row.css('opacity') == 1)
-                row.fadeTo('fast', .5);
-            else
-                row.fadeTo('fast', 1);*/
+
             if ($('#check-' + id + ':checked').val() == null)
                 row.fadeTo('fast', .5);
             else
@@ -25,7 +21,6 @@
     <table>
         <tr>
             <th>
-                Register for class?
             </th>
             <th>
                 Course Number
@@ -39,7 +34,7 @@
         </tr>
         <% foreach (var item in Model) { %>
         <tr id="row-<%: item.record_id %>">
-            <td>
+            <td style="width:auto;">
                 <%: Html.CheckBox("check-" + item.record_id, true, new { onclick = "javascript:toggleCheck(" + item.record_id + ");" }) %>
             </td>
             <td>
