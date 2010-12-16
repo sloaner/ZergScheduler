@@ -17,7 +17,7 @@
     <div id="container">
         <div id="header">
             <h1>
-                Zerg Scheduler</h1>
+                .</h1>
             <ul id="navlist">
                 <li class="nav first">
                     <%: Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav menu-label" })%>

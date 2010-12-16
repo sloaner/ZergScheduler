@@ -30,6 +30,7 @@ div
     position: relative;
     width: 100%;
     border-bottom: 1px dotted #5D5A53;
+    background: url(/ZergScheduler/Content/Images/banner.jpg) no-repeat;
 }
 
 #header h1
