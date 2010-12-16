@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ZergRushModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="ZergRushEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Classes" EntityType="ZergRushModel.Class" />
+    <EntitySet Name="Courses" EntityType="ZergRushModel.Course" />
+    <EntitySet Name="Departments" EntityType="ZergRushModel.Department" />
+    <EntitySet Name="GEPs" EntityType="ZergRushModel.GEP" />
+    <EntitySet Name="GFRs" EntityType="ZergRushModel.GFR" />
+    <EntitySet Name="Role_Type" EntityType="ZergRushModel.Role_Type" />
+    <EntitySet Name="Semesters" EntityType="ZergRushModel.Semester" />
+    <EntitySet Name="Takes" EntityType="ZergRushModel.Take" />
+    <EntitySet Name="Users" EntityType="ZergRushModel.User" />
+    <EntitySet Name="Instructors" EntityType="ZergRushModel.Instructor" />
+    <EntitySet Name="Students" EntityType="ZergRushModel.Student" />
+    <AssociationSet Name="FK_Class_Course" Association="ZergRushModel.FK_Class_Course">
+      <End Role="Course" EntitySet="Courses" />
+      <End Role="Class" EntitySet="Classes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Class_User" Association="ZergRushModel.FK_Class_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Class" EntitySet="Classes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Course_Department" Association="ZergRushModel.FK_Course_Department">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Course" EntitySet="Courses" />
+    </AssociationSet>
+    <AssociationSet Name="Role" Association="ZergRushModel.Role">
+      <End Role="Role_Type" EntitySet="Role_Type" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Class_Semester" Association="ZergRushModel.FK_Class_Semester">
+      <End Role="Semester" EntitySet="Semesters" />
+      <End Role="Class" EntitySet="Classes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Takes_Class" Association="ZergRushModel.FK_Takes_Class">
+      <End Role="Class" EntitySet="Classes" />
+      <End Role="Take" EntitySet="Takes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Takes_User" Association="ZergRushModel.FK_Takes_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Take" EntitySet="Takes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Department" Association="ZergRushModel.FK_User_Department">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="Timeslots" EntityType="ZergRushModel.Timeslot" />
+    <AssociationSet Name="FK_Class_Timeslot" Association="ZergRushModel.FK_Class_Timeslot">
+      <End Role="Timeslot" EntitySet="Timeslots" />
+      <End Role="Class" EntitySet="Classes" />
+    </AssociationSet>
+    <FunctionImport Name="GetClassEnrollment" ReturnType="Collection(Int32)">
+      <Parameter Name="class_id" Mode="In" Type="Int32" />
+      <Parameter Name="semester_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetClassWaitlist" ReturnType="Collection(Int32)">
+      <Parameter Name="class_id" Mode="In" Type="Int32" />
+      <Parameter Name="semester_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Current_Semester" EntityType="ZergRushModel.Current_Semester" />
+    <FunctionImport Name="RegisterForClass">
+      <Parameter Name="student_id" Mode="In" Type="String" />
+      <Parameter Name="class_id" Mode="In" Type="Int32" />
+      <Parameter Name="semester_id" Mode="In" Type="String" />
+      <Parameter Name="waitlist_status" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <EntitySet Name="Carts" EntityType="ZergRushModel.Cart" />
+    <AssociationSet Name="FK_Cart_Class" Association="ZergRushModel.FK_Cart_Class">
+      <End Role="Class" EntitySet="Classes" />
+      <End Role="Cart" EntitySet="Carts" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="class_id" />
+      <PropertyRef Name="semster_id" />
+    </Key>
+    <Property Type="Int32" Name="class_id" Nullable="false" />
+    <Property Type="String" Name="semster_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="course_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="sect_id" Nullable="false" />
+    <Property Type="String" Name="room_id" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="inst_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="capacity" Nullable="false" />
+    <Property Type="Int32" Name="waitlist_capacity" Nullable="false" />
+    <Property Type="Int32" Name="days" />
+    <Property Type="Int32" Name="timeslot_id" />
+    <Property Type="Boolean" Name="has_children" Nullable="false" />
+    <Property Type="Int32" Name="parent_class_id" />
+    <NavigationProperty Name="Course" Relationship="ZergRushModel.FK_Class_Course" FromRole="Class" ToRole="Course" />
+    <NavigationProperty Name="User" Relationship="ZergRushModel.FK_Class_User" FromRole="Class" ToRole="User" />
+    <NavigationProperty Name="Semester" Relationship="ZergRushModel.FK_Class_Semester" FromRole="Class" ToRole="Semester" />
+    <NavigationProperty Name="Takes" Relationship="ZergRushModel.FK_Takes_Class" FromRole="Class" ToRole="Take" />
+    <NavigationProperty Name="Timeslot" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Class" ToRole="Timeslot" />
+    <NavigationProperty Name="Carts" Relationship="ZergRushModel.FK_Cart_Class" FromRole="Class" ToRole="Cart" />
+  </EntityType>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="course_id" />
+    </Key>
+    <Property Type="String" Name="course_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="course_no" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="title" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="description" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="credits" />
+    <Property Type="String" Name="career" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="gfr" DefaultValue="0" />
+    <Property Type="Int32" Name="gep" DefaultValue="0" />
+    <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_Course" FromRole="Course" ToRole="Class" />
+    <NavigationProperty Name="Department" Relationship="ZergRushModel.FK_Course_Department" FromRole="Course" ToRole="Department" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="dept_id" />
+    </Key>
+    <Property Type="String" Name="dept_id" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="dept_title" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Courses" Relationship="ZergRushModel.FK_Course_Department" FromRole="Department" ToRole="Course" />
+    <NavigationProperty Name="Users" Relationship="ZergRushModel.FK_User_Department" FromRole="Department" ToRole="User" />
+  </EntityType>
+  <EntityType Name="GEP">
+    <Key>
+      <PropertyRef Name="value" />
+    </Key>
+    <Property Type="Int32" Name="value" Nullable="false" />
+    <Property Type="String" Name="id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="GFR">
+    <Key>
+      <PropertyRef Name="value" />
+    </Key>
+    <Property Type="Int32" Name="value" Nullable="false" />
+    <Property Type="String" Name="id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Role_Type">
+    <Key>
+      <PropertyRef Name="role_id" />
+    </Key>
+    <Property Type="String" Name="role_id" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="role_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Users" Relationship="ZergRushModel.Role" FromRole="Role_Type" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Semester">
+    <Key>
+      <PropertyRef Name="semester_id" />
+    </Key>
+    <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+    <Property Type="DateTime" Name="start_date" Nullable="false" />
+    <Property Type="DateTime" Name="drop_date" Nullable="false" />
+    <Property Type="DateTime" Name="withdraw_date" Nullable="false" />
+    <Property Type="DateTime" Name="reg_start_date" Nullable="false" />
+    <Property Type="Int32" Name="credit_step" Nullable="false" />
+    <Property Type="Int32" Name="day_step" Nullable="false" />
+    <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_Semester" FromRole="Semester" ToRole="Class" />
+  </EntityType>
+  <EntityType Name="Take">
+    <Key>
+      <PropertyRef Name="student_id" />
+      <PropertyRef Name="class_id" />
+      <PropertyRef Name="semester_id" />
+    </Key>
+    <Property Type="String" Name="student_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="class_id" Nullable="false" />
+    <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+    <Property Type="Int32" Name="grade" />
+    <Property Type="Boolean" Name="waitlist_status" Nullable="false" />
+    <NavigationProperty Name="Class" Relationship="ZergRushModel.FK_Takes_Class" FromRole="Take" ToRole="Class" />
+    <NavigationProperty Name="User" Relationship="ZergRushModel.FK_Takes_User" FromRole="Take" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Type="String" Name="user_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="first_name" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="last_name" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="email" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="password" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="department" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_User" FromRole="User" ToRole="Class" />
+    <NavigationProperty Name="Role_Type" Relationship="ZergRushModel.Role" FromRole="User" ToRole="Role_Type" />
+    <NavigationProperty Name="Takes" Relationship="ZergRushModel.FK_Takes_User" FromRole="User" ToRole="Take" />
+    <NavigationProperty Name="Department1" Relationship="ZergRushModel.FK_User_Department" FromRole="User" ToRole="Department" />
+  </EntityType>
+  <EntityType Name="Instructor">
+    <Key>
+      <PropertyRef Name="inst_id" />
+    </Key>
+    <Property Type="String" Name="inst_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="department" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="student_id" />
+    </Key>
+    <Property Type="String" Name="student_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="major" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Class_Course">
+    <End Type="ZergRushModel.Course" Role="Course" Multiplicity="1" />
+    <End Type="ZergRushModel.Class" Role="Class" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="course_id" />
+      </Principal>
+      <Dependent Role="Class">
+        <PropertyRef Name="course_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Class_User">
+    <End Type="ZergRushModel.User" Role="User" Multiplicity="1" />
+    <End Type="ZergRushModel.Class" Role="Class" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Class">
+        <PropertyRef Name="inst_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Course_Department">
+    <End Type="ZergRushModel.Department" Role="Department" Multiplicity="1" />
+    <End Type="ZergRushModel.Course" Role="Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="dept_id" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="dept_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Role">
+    <End Type="ZergRushModel.Role_Type" Role="Role_Type" Multiplicity="*" />
+    <End Type="ZergRushModel.User" Role="User" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Class_Semester">
+    <End Type="ZergRushModel.Semester" Role="Semester" Multiplicity="1" />
+    <End Type="ZergRushModel.Class" Role="Class" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Semester">
+        <PropertyRef Name="semester_id" />
+      </Principal>
+      <Dependent Role="Class">
+        <PropertyRef Name="semster_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Takes_Class">
+    <End Type="ZergRushModel.Class" Role="Class" Multiplicity="1" />
+    <End Type="ZergRushModel.Take" Role="Take" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="class_id" />
+        <PropertyRef Name="semster_id" />
+      </Principal>
+      <Dependent Role="Take">
+        <PropertyRef Name="class_id" />
+        <PropertyRef Name="semester_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Takes_User">
+    <End Type="ZergRushModel.User" Role="User" Multiplicity="1" />
+    <End Type="ZergRushModel.Take" Role="Take" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Take">
+        <PropertyRef Name="student_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Department">
+    <End Type="ZergRushModel.Department" Role="Department" Multiplicity="0..1" />
+    <End Type="ZergRushModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="dept_id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="department" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Timeslot">
+    <Key>
+      <PropertyRef Name="timeslot_id" />
+    </Key>
+    <Property Type="Int32" Name="timeslot_id" Nullable="false" />
+    <Property Type="Int32" Name="start_hr" Nullable="false" />
+    <Property Type="Int32" Name="start_min" Nullable="false" />
+    <Property Type="Int32" Name="end_hr" Nullable="false" />
+    <Property Type="Int32" Name="end_min" Nullable="false" />
+    <Property Type="DateTime" Name="start_time" Nullable="false" />
+    <Property Type="DateTime" Name="end_time" Nullable="false" />
+    <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_Timeslot" FromRole="Timeslot" ToRole="Class" />
+  </EntityType>
+  <Association Name="FK_Class_Timeslot">
+    <End Type="ZergRushModel.Timeslot" Role="Timeslot" Multiplicity="0..1" />
+    <End Type="ZergRushModel.Class" Role="Class" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Timeslot">
+        <PropertyRef Name="timeslot_id" />
+      </Principal>
+      <Dependent Role="Class">
+        <PropertyRef Name="timeslot_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Current_Semester">
+    <Key>
+      <PropertyRef Name="semester_id" />
+    </Key>
+    <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="record_id" />
+    </Key>
+    <Property Type="Int32" Name="record_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="user_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="class_id" Nullable="false" />
+    <Property Type="String" Name="semester_id" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Class" Relationship="ZergRushModel.FK_Cart_Class" FromRole="Cart" ToRole="Class" />
+  </EntityType>
+  <Association Name="FK_Cart_Class">
+    <End Type="ZergRushModel.Class" Role="Class" Multiplicity="1" />
+    <End Type="ZergRushModel.Cart" Role="Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="class_id" />
+        <PropertyRef Name="semster_id" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="class_id" />
+        <PropertyRef Name="semester_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
