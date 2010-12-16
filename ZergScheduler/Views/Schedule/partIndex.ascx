@@ -21,6 +21,9 @@
         <th>
             Section Number
         </th>
+        <th>
+            Waitlist
+        </th>
     </tr>
     <% foreach (var item in Model)
        { %>
@@ -51,6 +54,9 @@
         </td>
         <td>
             <%: item.sect_id %>
+        </td>
+        <td>
+            <%: item.Takes.SingleOrDefault(t => t.student_id == Page.User.Identity.Name).waitlist_status ? "On waitlist" : "" %>
         </td>
     </tr>
     <% } %>

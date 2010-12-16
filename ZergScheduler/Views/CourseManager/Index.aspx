@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <table id="SortTable">
         <tr>
-            <th></th>
+            <th id="blnk"></th>
             <th>Course ID</th>
             <th>Title</th>
             <th>Department</th>

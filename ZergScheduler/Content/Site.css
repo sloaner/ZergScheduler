@@ -500,8 +500,20 @@ th.headerSortUp {
     background-color: #3399FF;
 }
 
-th#blnk
+/*th#blnk
 {
     background-image: none;
     background-color: #9b9993;
+}*/
+
+th {
+    background-color: #fceebf;
+    color: #000000;
+    font-size: 13px;
+    text-align: left;
+}
+
+th#blnk {
+    background-color: #fceebf;
+    background-image: none;
 }

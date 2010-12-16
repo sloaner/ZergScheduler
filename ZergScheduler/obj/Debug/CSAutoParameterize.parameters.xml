@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="ZergRushEntities-Web.config Connection String" description="ZergRushEntities Connection String used in web.config by the application to access the database." defaultvalue="metadata=res://*/Models.CoursesDB.csdl|res://*/Models.CoursesDB.ssdl|res://*/Models.CoursesDB.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=fadetoblack.homedns.org;Initial Catalog=CMSC345;Persist Security Info=True;User ID=345team;Password=zergRush;MultipleActiveResultSets=True&quot;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ZergRushEntities']/@connectionString" />
-  </parameter>
-  <parameter name="ApplicationServices-Web.config Connection String" description="ApplicationServices Connection String used in web.config by the application to access the database." defaultvalue="data source=.\SQLEXPRESS;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|aspnetdb.mdf;User Instance=true" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ApplicationServices']/@connectionString" />
-  </parameter>
-</parameters>
