@@ -121,6 +121,13 @@ div
     background-color: #CC2D2A;
 }
 /********************* End top navigation ***************************/
+
+#courseList h3
+{
+    cursor: pointer;
+}
+
+/********************* SearchController *****************************/
 #searchPanel
 {
     width: 300px;
@@ -234,6 +241,7 @@ div
 {
     background-color: #DDD;
 }
+/***************************** End SearchController *****************/
 
 ul li a
 {
