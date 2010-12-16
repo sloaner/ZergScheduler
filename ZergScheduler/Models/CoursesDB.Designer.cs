@@ -532,6 +532,25 @@ namespace ZergScheduler.Models
     
             return base.ExecuteFunction("RegisterForClass", student_idParameter, class_idParameter, semester_idParameter, waitlist_statusParameter);
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="semester_id">No Metadata Documentation available.</param>
+        public int SetCurrentSemester(global::System.String semester_id)
+        {
+            ObjectParameter semester_idParameter;
+            if (semester_id != null)
+            {
+                semester_idParameter = new ObjectParameter("semester_id", semester_id);
+            }
+            else
+            {
+                semester_idParameter = new ObjectParameter("semester_id", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction("SetCurrentSemester", semester_idParameter);
+        }
 
         #endregion
     }

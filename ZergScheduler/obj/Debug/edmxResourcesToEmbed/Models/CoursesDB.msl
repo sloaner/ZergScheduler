@@ -161,5 +161,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SetCurrentSemester" FunctionName="ZergRushModel.Store.sp_SetCurrentSemester" />
   </EntityContainerMapping>
 </Mapping>

@@ -8,3 +8,8 @@ C:\Users\Chris\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler
 C:\Users\Chris\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\bin\ZergScheduler.pdb
 C:\Users\Chris\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.dll
 C:\Users\Chris\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.pdb
+C:\Users\zerg\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\zerg\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.dll
+C:\Users\zerg\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\bin\ZergScheduler.dll
+C:\Users\zerg\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\bin\ZergScheduler.pdb
+C:\Users\zerg\Documents\Visual Studio 2010\Projects\ZergScheduler\ZergScheduler\obj\Debug\ZergScheduler.pdb

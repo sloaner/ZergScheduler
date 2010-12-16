@@ -75,14 +75,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClassManagerController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\CourseManagerController.cs" />
     <Compile Include="Controllers\GradeController.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ScheduleManagerController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\SemesterManagerController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
+    <Compile Include="Models\Class.cs" />
+    <Compile Include="Models\Semester.cs" />
+    <Compile Include="ViewModels\ClassManagerCreateViewModel.cs" />
+    <Compile Include="ViewModels\ClassManagerIndexViewModel.cs" />
+    <Compile Include="ViewModels\SemesterIndexViewModel.cs" />
     <Compile Include="ViewModels\TeacherViewModel.cs" />
     <Compile Include="Controllers\WaitlistController.cs" />
     <Compile Include="Global.asax.cs">
@@ -116,8 +124,11 @@
     <Content Include="Content\Images\add.png" />
     <Content Include="Content\Images\arrow-left.png" />
     <Content Include="Content\Images\arrow-right.png" />
+    <Content Include="Content\Images\asc.gif" />
     <Content Include="Content\Images\banner.jpg" />
     <Content Include="Content\Images\banner.png" />
+    <Content Include="Content\Images\bg.gif" />
+    <Content Include="Content\Images\desc.gif" />
     <Content Include="Content\Images\open.png" />
     <Content Include="Content\Images\closed.png" />
     <Content Include="Content\Images\error.png" />
@@ -127,14 +138,20 @@
     <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\arrow-down.png" />
     <Content Include="Content\Images\success.png" />
-    <Content Include="Content\StyleSheet1.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\jquery.tablesorter.js" />
     <Content Include="Views\Account\ChangePassword.aspx" />
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Calendar.aspx" />
+    <Content Include="Views\ClassManager\Create.aspx" />
+    <Content Include="Views\ClassManager\Delete.aspx" />
+    <Content Include="Views\ClassManager\Deleted.aspx" />
+    <Content Include="Views\ClassManager\Edit.aspx" />
+    <Content Include="Views\ClassManager\Index.aspx" />
+    <Content Include="Views\ClassManager\partIndex.ascx" />
     <Content Include="Views\CourseManager\Create.aspx" />
     <Content Include="Views\CourseManager\Delete.aspx" />
     <Content Include="Views\CourseManager\Deleted.aspx" />
@@ -146,6 +163,7 @@
     <Content Include="Views\Course\Index.aspx" />
     <Content Include="Views\Data.aspx" />
     <Content Include="Views\Grade\Index.aspx" />
+    <Content Include="Views\History\Index.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\ScheduleManager\Complete.aspx" />
     <Content Include="Views\ScheduleManager\Register.aspx" />
@@ -155,6 +173,13 @@
     <Content Include="Views\Schedule\partIndex.ascx" />
     <Content Include="Views\Search\ClassFilter.ascx" />
     <Content Include="Views\Search\Index.aspx" />
+    <Content Include="Views\SemesterManager\Create.aspx" />
+    <Content Include="Views\SemesterManager\Delete.aspx" />
+    <Content Include="Views\SemesterManager\Deleted.aspx" />
+    <Content Include="Views\SemesterManager\Details.aspx" />
+    <Content Include="Views\SemesterManager\Edit.aspx" />
+    <Content Include="Views\SemesterManager\EditCurrent.aspx" />
+    <Content Include="Views\SemesterManager\Index.aspx" />
     <Content Include="Views\Shared\EditorTemplates\Course.ascx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\ShoppingCart\AddToCart.ascx" />
@@ -189,7 +214,6 @@
     <Content Include="Views\Shared\Site.Master" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\Images\Thumbs.db" />
     <EntityDeploy Include="Models\CoursesDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CoursesDB.Designer.cs</LastGenOutput>

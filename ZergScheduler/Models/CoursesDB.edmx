@@ -9,11 +9,7 @@
           <EntitySet Name="Cart" EntityType="ZergRushModel.Store.Cart" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Class" EntityType="ZergRushModel.Store.Class" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Course" EntityType="ZergRushModel.Store.Course" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Current_Semester" EntityType="ZergRushModel.Store.Current_Semester" store:Type="Tables" store:Schema="dbo" store:Name="Current_Semester">
-            <DefiningQuery>SELECT 
-      [Current_Semester].[semester_id] AS [semester_id]
-      FROM [dbo].[Current_Semester] AS [Current_Semester]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Current_Semester" EntityType="ZergRushModel.Store.Current_Semester" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Department" EntityType="ZergRushModel.Store.Department" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GEP" EntityType="ZergRushModel.Store.GEP" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GFR" EntityType="ZergRushModel.Store.GFR" store:Type="Tables" Schema="dbo" />
@@ -94,7 +90,7 @@
             <PropertyRef Name="class_id" />
             <PropertyRef Name="semster_id" />
           </Key>
-          <Property Name="class_id" Type="int" Nullable="false" />
+          <Property Name="class_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="semster_id" Type="nchar" Nullable="false" MaxLength="4" />
           <Property Name="course_id" Type="nvarchar" Nullable="false" MaxLength="10" />
           <Property Name="sect_id" Type="int" Nullable="false" />
@@ -121,9 +117,6 @@
           <Property Name="gfr" Type="int" />
           <Property Name="gep" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'CMSC345.dbo.Current_Semester' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="Current_Semester">
           <Key>
             <PropertyRef Name="semester_id" />
@@ -385,6 +378,9 @@
           <Parameter Name="semester_id" Type="nchar" Mode="In" />
           <Parameter Name="waitlist_status" Type="bit" Mode="In" />
         </Function>
+        <Function Name="sp_SetCurrentSemester" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="semester_id" Type="nchar" Mode="In" />
+        </Function>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -458,6 +454,9 @@
             <End Role="Class" EntitySet="Classes" />
             <End Role="Cart" EntitySet="Carts" />
           </AssociationSet>
+          <FunctionImport Name="SetCurrentSemester">
+            <Parameter Name="semester_id" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Class">
           <Key>
@@ -899,6 +898,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SetCurrentSemester" FunctionName="ZergRushModel.Store.sp_SetCurrentSemester" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
