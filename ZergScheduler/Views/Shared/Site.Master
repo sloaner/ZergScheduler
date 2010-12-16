@@ -16,8 +16,7 @@
     <% Html.EnableClientValidation(); %>
     <div id="container">
         <div id="header">
-            <h1>
-                .</h1>
+            <h1>.</h1>
             <ul id="navlist">
                 <li class="nav first">
                     <%: Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav menu-label" })%>
@@ -26,8 +25,22 @@
                     <%: Html.ActionLink("Search", "Index", "Search", null, new { @class = "nav menu-label" })%>
                 </li>
                 <li class="nav">
-                    <%: Html.ActionLink("Browse", "Index", "Course", null, new { @class = "nav menu-label" })%>
+                    <%: Html.ActionLink("Catalog", "Index", "Course", null, new { @class = "nav menu-label" })%>
                 </li>
+                <% if (Page.User.IsInRole("Administrator")) { %>
+                
+                <li class="nav">
+                    <%: Html.ActionLink("Course Manager", "Index", "CourseManager", null, new { @class = "nav menu-label" })%>
+                </li>
+                <li class="nav">
+                    <%: Html.ActionLink("Class Manager", "Index", "ClassManager", null, new { @class = "nav menu-label" })%>
+                </li>
+                <li class="nav">
+                    <%: Html.ActionLink("Semester Manager", "Index", "SemesterManager", null, new { @class = "nav menu-label" })%>
+                </li>
+
+
+                <%} %>
                 <li class="nav">
                     <% Html.RenderAction("CartSummary", "ShoppingCart"); %>
                 </li>
@@ -36,7 +49,8 @@
                 %>
                 <li class="nav name">
                     <label class="nav menu-label">
-                        <%: Page.User.Identity.Name %></label>
+                        <%: Page.User.Identity.Name %>
+                    </label>
                 </li>
                 <li class="logout menu last" id="navlist-log">
                     <%: Html.ActionLink("Log Off", "LogOff", "Account", null, new { @class = "nav menu-label" })%>

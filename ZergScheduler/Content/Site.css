@@ -30,7 +30,8 @@ div
     position: relative;
     width: 100%;
     border-bottom: 1px dotted #5D5A53;
-    background: url(/Content/Images/banner.jpg) no-repeat;
+    background: url(/Content/Images/banner.png) no-repeat;
+    margin-bottom: 10px;
 }
 
 #header h1
