@@ -8,18 +8,15 @@
         function hideDefault() {
             $('#classResults').html = "";
         }
-        function handleUpdate(context)
-        {
+        function handleUpdate(context) {
             var json = context.get_data();
             var data = Sys.Serialization.JavaScriptSerializer.deserialize(json);
 
             $('#row-' + data).fadeOut('fast');
         }
         function updateCal() {
-            var json = new Object();
-            json.sem = $('#semester_id').val();
             $.ajax({
-                url: '/Schedule/updateCalendar',
+                url: '/ZergScheduler/Schedule/updateCalendar',
                 type: 'POST',
                 dataType: 'json',
                 data: { semester_id: $('#semester_id').val() },
@@ -27,16 +24,26 @@
                     $('#calendar').fullCalendar('removeEvents');
                 },
                 success: function (data) {
-                    $('#calendar').toggle(true);
                     $('#calendar').fullCalendar('gotoDate', new Date(data.start));
                     $('#calendar').fullCalendar('addEventSource', data.events);
                 }
             });
         }
         $(function () {
-            $('#semester_id').change(updateCal);
+            $('#semester_submit').click(updateCal);
+            $('#viewSwitcher').toggle(
+                function () {
+                    updateCal();
+                    $('#classResults').hide();
+                    $('#calendar').show();
+                    $('#viewSwitcher').html('Switch to List View');
+                }, function () {
+                    $('#classResults').show();
+                    $('#calendar').hide();
+                    $('#viewSwitcher').html('Switch to Calendar View');
+                });
 
-            $('#calendar').toggle(false).fullCalendar({
+            $('#calendar').hide().fullCalendar({
                 weekends: false,
                 editable: false,
                 defaultView: 'agendaWeek',
@@ -49,16 +56,16 @@
         });
     </script>
     <p>
-        <%using (Ajax.BeginForm("partIndex", new AjaxOptions { UpdateTargetId = "classResults", OnBegin = "hideDefault" }))
-          { %>
-        <%--<%: Html.DropDownList("sem_list", new SelectList(ViewData["Semester"] as IEnumerable, "semester_id", "semester_id"))%>--%>
+        <%using (Ajax.BeginForm("partIndex", new AjaxOptions { UpdateTargetId = "classResults", OnBegin = "hideDefault" })) { %>
         <%: Html.DropDownList("semester_id", new SelectList(Model.Semesters, "semester_id", "semester_id"), "Select Semester")%>
-        <input type="submit" value="Select" />
+        <input type="submit" value="Select" id="semester_submit" />
         <%} %>
     </p>
+    <h3 id="viewSwitcher">
+        Switch to Calendar View</h3>
     <div id="classResults">
         <% Html.RenderAction("partIndex"); %>
     </div>
-    <div id="calendar"></div>
-    
+    <div id="calendar">
+    </div>
 </asp:Content>

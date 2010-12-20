@@ -51,8 +51,11 @@ namespace ZergScheduler.Controllers
 		[HttpPost]
 		public ActionResult updateCalendar(string semester_id)
 		{
+			if (string.IsNullOrWhiteSpace(semester_id))
+				semester_id = db.Current_Semester.First().semester_id;
 			var student = db.Users.SingleOrDefault(s => s.user_id == User.Identity.Name);
-			if (student == null || string.IsNullOrWhiteSpace(semester_id)) return Json(null);
+			if (student == null)
+				return Json(null);
 
 			var semester_start_date = db.Semesters.SingleOrDefault(s => s.semester_id == semester_id).start_date.Date;
 			student.Takes.Select(c => c.Class).Distinct().ToList();
