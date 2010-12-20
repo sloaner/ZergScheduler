@@ -28,6 +28,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_User_Department", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ZergScheduler.Models.Department), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.User), true)]
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Class_Timeslot", "Timeslot", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ZergScheduler.Models.Timeslot), "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Class), true)]
 [assembly: EdmRelationshipAttribute("ZergRushModel", "FK_Cart_Class", "Class", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ZergScheduler.Models.Class), "Cart", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Cart), true)]
+[assembly: EdmRelationshipAttribute("ZergRushModel", "Prereq", "Course", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Course), "Prereqs", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ZergScheduler.Models.Course))]
 
 #endregion
 
@@ -1574,6 +1575,50 @@ namespace ZergScheduler.Models
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("ZergRushModel.FK_Course_Department", "Department", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "Prereq", "Prereqs")]
+        public EntityCollection<Course> Prereqs
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Course>("ZergRushModel.Prereq", "Prereqs");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Course>("ZergRushModel.Prereq", "Prereqs", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ZergRushModel", "Prereq", "Course")]
+        public EntityCollection<Course> Courses
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Course>("ZergRushModel.Prereq", "Course");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Course>("ZergRushModel.Prereq", "Course", value);
                 }
             }
         }

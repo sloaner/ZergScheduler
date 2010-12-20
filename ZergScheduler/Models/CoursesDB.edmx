@@ -13,6 +13,7 @@
           <EntitySet Name="Department" EntityType="ZergRushModel.Store.Department" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GEP" EntityType="ZergRushModel.Store.GEP" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GFR" EntityType="ZergRushModel.Store.GFR" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Prereq" EntityType="ZergRushModel.Store.Prereq" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Role" EntityType="ZergRushModel.Store.Role" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Role_Type" EntityType="ZergRushModel.Store.Role_Type" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Semester" EntityType="ZergRushModel.Store.Semester" store:Type="Tables" Schema="dbo" />
@@ -54,6 +55,14 @@
           <AssociationSet Name="FK_Course_Department" Association="ZergRushModel.Store.FK_Course_Department">
             <End Role="Department" EntitySet="Department" />
             <End Role="Course" EntitySet="Course" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prereq_Course" Association="ZergRushModel.Store.FK_Prereq_Course">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Prereq" EntitySet="Prereq" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prereq_Course1" Association="ZergRushModel.Store.FK_Prereq_Course1">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Prereq" EntitySet="Prereq" />
           </AssociationSet>
           <AssociationSet Name="FK_Role_Role_Type" Association="ZergRushModel.Store.FK_Role_Role_Type">
             <End Role="Role_Type" EntitySet="Role_Type" />
@@ -145,6 +154,14 @@
           <Property Name="value" Type="int" Nullable="false" />
           <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Prereq">
+          <Key>
+            <PropertyRef Name="course_id" />
+            <PropertyRef Name="prereq_id" />
+          </Key>
+          <Property Name="course_id" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="prereq_id" Type="nvarchar" Nullable="false" MaxLength="10" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -302,6 +319,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Prereq_Course">
+          <End Role="Course" Type="ZergRushModel.Store.Course" Multiplicity="1" />
+          <End Role="Prereq" Type="ZergRushModel.Store.Prereq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="course_id" />
+            </Principal>
+            <Dependent Role="Prereq">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prereq_Course1">
+          <End Role="Course" Type="ZergRushModel.Store.Course" Multiplicity="1" />
+          <End Role="Prereq" Type="ZergRushModel.Store.Prereq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="course_id" />
+            </Principal>
+            <Dependent Role="Prereq">
+              <PropertyRef Name="prereq_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Role_Role_Type">
           <End Role="Role_Type" Type="ZergRushModel.Store.Role_Type" Multiplicity="1" />
           <End Role="Role" Type="ZergRushModel.Store.Role" Multiplicity="*" />
@@ -455,8 +496,12 @@
             <End Role="Cart" EntitySet="Carts" />
           </AssociationSet>
           <FunctionImport Name="SetCurrentSemester">
-            <Parameter Name="semester_id" Mode="In" Type="String" />
+          <Parameter Name="semester_id" Mode="In" Type="String" />
           </FunctionImport>
+          <AssociationSet Name="Prereq" Association="ZergRushModel.Prereq">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="Prereqs" EntitySet="Courses" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Class">
           <Key>
@@ -497,6 +542,8 @@
           <Property Type="Int32" Name="gep" DefaultValue="0" />
           <NavigationProperty Name="Classes" Relationship="ZergRushModel.FK_Class_Course" FromRole="Course" ToRole="Class" />
           <NavigationProperty Name="Department" Relationship="ZergRushModel.FK_Course_Department" FromRole="Course" ToRole="Department" />
+          <NavigationProperty Name="Prereqs" Relationship="ZergRushModel.Prereq" FromRole="Course" ToRole="Prereqs" />
+          <NavigationProperty Name="Courses" Relationship="ZergRushModel.Prereq" FromRole="Prereqs" ToRole="Course" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -732,6 +779,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Prereq">
+          <End Type="ZergRushModel.Course" Role="Course" Multiplicity="*" />
+          <End Type="ZergRushModel.Course" Role="Prereqs" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -899,6 +950,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SetCurrentSemester" FunctionName="ZergRushModel.Store.sp_SetCurrentSemester" />
+          <AssociationSetMapping Name="Prereq" TypeName="ZergRushModel.Prereq" StoreEntitySet="Prereq">
+            <EndProperty Name="Prereqs">
+              <ScalarProperty Name="course_id" ColumnName="prereq_id" />
+            </EndProperty>
+            <EndProperty Name="Course">
+              <ScalarProperty Name="course_id" ColumnName="course_id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -919,7 +978,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="CoursesDB" ZoomLevel="111">
+      <Diagram Name="CoursesDB" ZoomLevel="53">
         <EntityTypeShape EntityType="ZergRushModel.Class" Width="1.5" PointX="5.625" PointY="3.75" Height="4.480205078125" />
         <EntityTypeShape EntityType="ZergRushModel.Course" Width="1.5" PointX="0.75" PointY="5.375" Height="3.1340950520833326" />
         <EntityTypeShape EntityType="ZergRushModel.Department" Width="1.5" PointX="0.75" PointY="3.125" Height="1.7879850260416665" />
@@ -932,15 +991,15 @@
         <EntityTypeShape EntityType="ZergRushModel.Instructor" Width="1.5" PointX="10.25" PointY="2.75" Height="1.4033821614583326" />
         <EntityTypeShape EntityType="ZergRushModel.Student" Width="1.5" PointX="10.25" PointY="1.125" Height="1.4033821614583326" />
         <AssociationConnector Association="ZergRushModel.FK_Class_Course" >
-          <ConnectorPoint PointX="2.25" PointY="7.8912972005208326" />
-          <ConnectorPoint PointX="5.625" PointY="7.8912972005208326" />
+          <ConnectorPoint PointX="2.25" PointY="7.8477791341145826" />
+          <ConnectorPoint PointX="5.625" PointY="7.8477791341145826" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_Class_User" >
           <ConnectorPoint PointX="4.625" PointY="3.9083968098958337" />
           <ConnectorPoint PointX="5.625" PointY="3.9083968098958337" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.FK_Course_Department" >
-          <ConnectorPoint PointX="1.5" PointY="4.9129850260416665" />
+          <ConnectorPoint PointX="1.5" PointY="4.8933317057291656" />
           <ConnectorPoint PointX="1.5" PointY="5.375" />
         </AssociationConnector>
         <AssociationConnector Association="ZergRushModel.Role" >
@@ -973,6 +1032,12 @@
         <AssociationConnector Association="ZergRushModel.FK_Cart_Class" >
           <ConnectorPoint PointX="6.375" PointY="3.75" />
           <ConnectorPoint PointX="6.375" PointY="3.1052864583333388" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZergRushModel.Prereq" >
+          <ConnectorPoint PointX="1.2819230769230767" PointY="8.8487760416666656" />
+          <ConnectorPoint PointX="1.2819230769230767" PointY="9.0987760416666656" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="9.0987760416666656" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="8.8487760416666656" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

@@ -38,12 +38,7 @@
             <%: item.Course.title %>
         </td>
         <td>
-            <%if (item.Timeslot != null)
-              { %>
-            <%: item.Timeslot.start_time.ToShortTimeString() %>
-            -
-            <%: item.Timeslot.end_time.ToShortTimeString() %>
-            <%} %>
+            <%: (item.days == null || item.Timeslot == null) ? "TBA" : Html.IntToDay(item.days.Value) + " " + item.Timeslot.start_time.ToShortTimeString() + " - " + item.Timeslot.end_time.ToShortTimeString()%>
         </td>
         <td>
             <%: item.User.first_name %>
@@ -61,4 +56,3 @@
     </tr>
     <% } %>
 </table>
-<%: Html.ActionLink("Calendar View", "Calendar", new { id = ViewData["id"] })%>
